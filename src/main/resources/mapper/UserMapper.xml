@@ -4,10 +4,16 @@
 
     <resultMap id="userResultMap" type="com.operatingSystem.model.User">
         <id column="id" property="id"></id>
-        <result column="name" property="name"></result>
+        <result column="username" property="username"></result>
+        <result column="uid" property="uid"></result>
         <result column="password" property="password"></result>
+        <result column="gender" property="gender"></result>
+        <result column="part" property="part"></result>
+        <result column="session_id" property="sessionId"></result>
+        <result column="login_count" property="loginCount"></result>
+        <result column="user_type" property="userType"></result>
         <result column="create_date" property="createDate"></result>
-        <result column="update_date" property="updateDate"></result>
+        <result column="login_date"  property="loginDate"></result>
     </resultMap>
 
     <select id="getUserByIdAndPassword" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">

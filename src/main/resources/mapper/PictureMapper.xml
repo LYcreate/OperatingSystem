@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.operatingSystem.dao.PictureMapper">
+
+    <resultMap id="pictureResultMap" type="com.operatingSystem.model.Picture">
+        <id column="id" property="id"></id>
+        <result column="picturename" property="picturename"></result>
+        <result column="hide" property="hide"></result>
+        <result column="url" property="url"></result>
+        <result column="suber" property="suber"></result>
+        <result column="sub_date" property="subDate"></result>
+        <result column="end_date" property="endDate"></result>
+    </resultMap>
+
+    <select id="getPictureById" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+        select * from picture where id=#{id}
+    </select>
+
+    <select id="getPictureByPicturename" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+        select * from picture where picturename=#{picturename}
+    </select>
+
+    <select id="getAllPictures" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+        select * from picture
+    </select>
+    
+</mapper>
