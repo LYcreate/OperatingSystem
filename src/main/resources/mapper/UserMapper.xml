@@ -14,4 +14,10 @@
         select * from user where id=#{id} and password=#{password}
     </select>
 
+    <!--<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"-->
+            <!--keyColumn="area_id" parameterType="com.jas.domain.Area">-->
+      <!--INSERT INTO-->
+      <!--t_area (area_name, priority, create_time, last_edit_time)-->
+      <!--VALUES (#{areaName},#{priority},#{createTime},#{lastEditTime})-->
+    <!--</insert>-->
 </mapper>

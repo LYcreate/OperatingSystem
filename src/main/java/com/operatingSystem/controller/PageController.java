@@ -27,6 +27,15 @@ public class PageController {
     }
 
     /*
+    显示页面
+    */
+    @RequestMapping("/screen")
+    public String goScreen(){
+
+        return "screen";
+    }
+
+    /*
      图片控制部分
             */
 
@@ -46,6 +55,12 @@ public class PageController {
     public String goUserPiclist(){
 
         return "/user/piclist";
+    }
+
+    @RequestMapping("/user/searchpic")
+    public String goUserSearch(){
+
+        return "/user/searchpic";
     }
 
     @RequestMapping("/user/addpic")
