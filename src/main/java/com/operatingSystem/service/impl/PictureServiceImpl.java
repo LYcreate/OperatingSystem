@@ -29,4 +29,8 @@ public class PictureServiceImpl implements PictureService {
     public List<Picture> getAllPictures() throws Exception{
         return pictureMapper.getAllPictures();
     }
+
+    public void insertOnePicture(Picture picture) throws Exception{
+        pictureMapper.insertOnePicture(picture);
+    }
 }

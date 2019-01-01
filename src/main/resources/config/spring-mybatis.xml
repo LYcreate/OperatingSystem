@@ -15,8 +15,8 @@
     <!--<context:component-scan base-package="com.operatingSystem.service.*"/>-->
 
     <!-- 配置数据库相关参数properties的属性：${url} -->
-    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
-
+    <!--<context:property-placeholder location="classpath:properties/jdbc.properties"/>-->
+    <context:property-placeholder location="classpath:properties/*.properties"   ignore-unresolvable="true"/>
     <!-- 数据库连接池 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver}"/>

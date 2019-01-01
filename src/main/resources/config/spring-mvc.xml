@@ -17,8 +17,11 @@
     <mvc:resources mapping="/css/**" location="/css/" />
     <mvc:resources mapping="/ueditor/**" location="/ueditor/" />
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
-    <mvc:resources mapping="/imgs/**" location="/imgs/" />
-    <mvc:resources mapping="/images/**" location="/imgs/" />
+    <!--<mvc:resources mapping="/imgs/**" location="D:\\ImgBase\\"/>-->
+    <mvc:resources mapping="/images/**" location="file:D:\\ImgBase\\" />
+    <mvc:resources mapping="/ImgFiles/backgroundImg/**" location="file:D:\\ImgBase\\" />
+    <!--<mvc:resources mapping="/${mapping_path}/**" location="file:${local_path}/"/>-->
+    <mvc:resources mapping="/imgs/**" location="file:D:\\ImgBase\\"/>
     <mvc:resources mapping="/js/**" location="/js/" />
     <mvc:resources mapping="/layui/**" location="/layui/" />
     <mvc:resources mapping="/upload/**" location="/upload/" />
@@ -38,4 +41,10 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="20000000"/>
+        <property name="defaultEncoding" value="utf-8"></property>
+    </bean>
+
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>-->
 </beans>

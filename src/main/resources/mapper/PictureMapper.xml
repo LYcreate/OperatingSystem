@@ -11,7 +11,7 @@
         <result column="sub_date" property="subDate"></result>
         <result column="end_date" property="endDate"></result>
     </resultMap>
-
+    <!--//select//-->
     <select id="getPictureById" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
         select * from picture where id=#{id}
     </select>
@@ -23,5 +23,14 @@
     <select id="getAllPictures" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
         select * from picture
     </select>
-    
+
+    <!--//insert//-->
+    <insert id="insertOnePicture" parameterType="com.operatingSystem.model.Picture"
+            keyProperty="id" keyColumn="id">
+      INSERT INTO
+      picture (id, picturename, sub_date, end_date,url,hide,suber)
+      VALUES (#{id},#{picturename},#{subDate},#{endDate},#{url},#{hide},#{suber})
+    </insert>
+
+
 </mapper>

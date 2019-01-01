@@ -20,10 +20,27 @@
         select * from user where id=#{id} and password=#{password}
     </select>
 
+    <!--<select id="getUserByIdAndPassword" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">-->
+        <!--select * from user where id=#{id} and password=#{password}-->
+    <!--</select>-->
+
     <!--<insert id="insertArea" useGeneratedKeys="true" keyProperty="areaId"-->
             <!--keyColumn="area_id" parameterType="com.jas.domain.Area">-->
       <!--INSERT INTO-->
       <!--t_area (area_name, priority, create_time, last_edit_time)-->
       <!--VALUES (#{areaName},#{priority},#{createTime},#{lastEditTime})-->
     <!--</insert>-->
+
+    <insert id="insertOneUser" parameterType="com.operatingSystem.model.User"
+            keyProperty="id" keyColumn="id">
+      INSERT INTO
+      user
+      (id, username, uid, password,
+      login_date,create_date,user_type,gender,
+      part,session_id,login_count)
+      VALUES (#{id},#{username},#{uid},#{password},
+      #{loginDate},#{createDate},#{userType},#{gender},
+      #{part},#{sessionId},#{loginCount})
+    </insert>
+
 </mapper>
