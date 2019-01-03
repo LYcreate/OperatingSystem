@@ -27,10 +27,10 @@ public class PictureController {
     public @ResponseBody
     List<String> test() throws Exception{
         List testPics = new ArrayList();
-        testPics.add("/screenos/imgs/16124400poster[7].jpg");
-        testPics.add("/screenos/imgs/16124400poster[8].jpg");
-        testPics.add("/screenos/imgs/16124400poster[9].jpg");
-        testPics.add("/screenos/imgs/16124400poster[10].jpg");
+        testPics.add("/screenos/images/16124400poster[7].jpg");
+        testPics.add("/screenos/images/16124400poster[8].jpg");
+        testPics.add("/screenos/images/16124400poster[9].jpg");
+        testPics.add("/screenos/images/16124400poster[10].jpg");
         return testPics;
     }
 
