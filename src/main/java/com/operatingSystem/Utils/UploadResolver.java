@@ -115,6 +115,7 @@ public class UploadResolver {
                 uploadImageMap.put("result","上传成功");
                 uploadImageMap.put("url",realpath);
                 uploadImageMap.put("realPath",directoryPath);
+                uploadImageMap.put("picsize", Long.toString(file.getSize()));
                 uploadImageMap.put("originalName",file.getOriginalFilename());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -140,12 +141,22 @@ public class UploadResolver {
             @RequestParam(value="imgBase64",defaultValue="") String imgBase64,
             @RequestParam(value="fileName",defaultValue="") String fileName,
             HttpServletRequest request, HttpServletResponse response){
-        String userUid = ((User)request.getSession().getAttribute(User.CURRENT_USER)).getUid();
-        if(userUid.equals("") || userUid == null)
+        String userUid = "16124400";
+        try {
+            userUid = ((User) request.getSession().getAttribute(User.CURRENT_USER)).getUid();
+            if (userUid.equals("") || userUid == null)
+                userUid = "16124400";
+        }catch (Exception e)
+        {
             userUid = "16124400";
+        }
         String TrueDirectory = "myBase64Files";
         String inventedDirectory = "ImgFiles/"+"backgroundImg";
         String directory = TrueDirectory+"-"+inventedDirectory;
+        System.out.println("imgBase64");
+        System.out.println(imgBase64);
+        System.out.println("filename");
+        System.out.println(fileName);
         Map<String, String> map = uploadImgBase64(request,imgBase64, directory, fileName,userUid);
         return map;
     }
@@ -196,15 +207,25 @@ public class UploadResolver {
                 out.flush();
                 out.close();                        //关闭文件输出器
                 uploadImageMap.put("success", "上传文件成功！");
+//                uploadImageMap.put("picsize", Long.toString(out.getChannel().size()));
                 uploadImageMap.put("path", path);
                 uploadImageMap.put("phoUrl", phoUrl);
+                uploadImageMap.put("picsize", "0");
+                System.out.println(uploadImageMap.toString());
+                System.out.println("status:0");
                 return uploadImageMap;
             }catch(Exception e){
-                uploadImageMap.put("err", "上传文件失败！");
+                System.out.println("错误");
+                System.out.println(e);
+                uploadImageMap.put("err", "上传文件失败！"+"1");
+                System.out.println(uploadImageMap.toString());
+                System.out.println("status:1");
                 return uploadImageMap;
             }
         }else{
             uploadImageMap.put("err", "上传文件失败！");
+            System.out.println(uploadImageMap.toString());
+            System.out.println("status:2");
             return uploadImageMap;
         }
     }

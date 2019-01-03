@@ -105,15 +105,20 @@ public class PictureController {
         return uploadImageMap;
     }
 
-    @RequestMapping(value = "/user/savePicture", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/savePicture")
 //    @RequestMapping(value = "/savePicture")
-    public @ResponseBody NetResult saveAct(@RequestParam String picturename,
-                             @RequestParam String url,
-                             @RequestParam String endDate) {
+    public @ResponseBody NetResult saveAct(
+                            @RequestParam String picturename,
+                            @RequestParam String url,
+                            @RequestParam String realpath,
+                            @RequestParam Integer picsize,
+                            @RequestParam String endDate) {
         NetResult r = new NetResult();
         String suber = "16124400";
+//        String realpath= "none";
+//        Integer picsize = 0;
         try {
-            Picture picture = new Picture(picturename,url,endDate,suber);
+            Picture picture = new Picture(picturename,url,endDate,suber,realpath,picsize);
             pictureService.insertOnePicture(picture);
             r.result="ok";
             r.status=1;

@@ -11,6 +11,7 @@
     <meta charset="UTF-8">
     <title>管理后台</title>
     <link rel="stylesheet" href="/screenos/old/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/screenos/css/cropper.css"/>
     <script src="/screenos/js/vue1.0.js"></script>
     <script src="/screenos/js/jquery.min.js"></script>
     <script src="/screenos/old/layui/layui.js"></script>

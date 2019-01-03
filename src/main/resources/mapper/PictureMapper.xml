@@ -7,6 +7,8 @@
         <result column="picturename" property="picturename"></result>
         <result column="hide" property="hide"></result>
         <result column="url" property="url"></result>
+        <result column="realpath" property="realpath"></result>
+        <result column="picsize" property="picsize"></result>
         <result column="suber" property="suber"></result>
         <result column="sub_date" property="subDate"></result>
         <result column="end_date" property="endDate"></result>
@@ -28,8 +30,8 @@
     <insert id="insertOnePicture" parameterType="com.operatingSystem.model.Picture"
             keyProperty="id" keyColumn="id">
       INSERT INTO
-      picture (id, picturename, sub_date, end_date,url,hide,suber)
-      VALUES (#{id},#{picturename},#{subDate},#{endDate},#{url},#{hide},#{suber})
+      picture (id, picturename, sub_date, end_date,url,hide,suber,realpath,picsize)
+      VALUES (#{id},#{picturename},#{subDate},#{endDate},#{url},#{hide},#{suber},#{realpath},#{picsize})
     </insert>
 
 

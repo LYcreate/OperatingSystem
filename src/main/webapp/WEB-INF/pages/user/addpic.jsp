@@ -3,19 +3,19 @@
 <%@ include file="template/head-nav.jsp"%>
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
-    <legend>分享新的活动</legend>
+    <legend>分享新的图片</legend>
 </fieldset>
 <div class="  table-responsive main-content" v-cloak style="margin-left: 50px;margin-right: 150px;">
     <table class="layui-table table-striped table-bordered table-hover" style="table-layout:fixed">
         <tr>
-            <th colspan="1" style="text-align:center">活动名称</th>
-            <td colspan="2">
-                <input type="text" class="layui-input" placeholder="请输入活动名称" v-model="picture.picturename"/>
+            <th colspan="1" style="text-align:center">图片名称</th>
+            <td colspan="5">
+                <input type="text" class="layui-input" placeholder="请输入图片名称" v-model="picture.picturename"/>
             </td>
         </tr>
         <tr>
             <th colspan="1" style="text-align:center">截止时间</th>
-            <td colspan="2">
+            <td colspan="5">
                 <input class="layui-input" v-model="picture.endDate" placeholder="请选择截止时间"
                        onclick="layui.laydate({min:layui.laydate.now(0),max:layui.laydate.now(+3),elem: this, festival:false,istime: true, format: 'YYYY-MM-DD',choose:function (datas){app.picture.endDate=datas;
                            console.log(app.picture.endDate)}})">
@@ -46,7 +46,7 @@
             </td>
         </tr>
         <tr>
-            <th colspan="1" style="text-align:center;vertical-align:middle;">活动宣传图或海报</th>
+            <th colspan="1" style="text-align:center;vertical-align:middle;">图片宣传图或海报</th>
             <td colspan="5" style="vertical-align:middle;">
                 <!--背景图片显示区域-->
                 <div id="showEdit" class="containerImage Hide cliper_wrapper">
@@ -70,7 +70,7 @@
             </td>
         </tr>
         <tr v-if="ifDisplay">
-            <th colspan="1" style="text-align:center;vertical-align:middle;">活动宣传图或海报</th>
+            <th colspan="1" style="text-align:center;vertical-align:middle;">图片宣传图或海报</th>
             <td colspan="5" style="vertical-align:middle;">
                 <input type="hidden" id="BS_s" value="${BS}">
             </td>
@@ -197,16 +197,20 @@
                 timeout : 10000, //超时时间设置，单位毫秒
                 async: true,
                 success: function (result) {
-                    app.picture.url = result.phoUrl;
-                    console.log(result)
-                    console.log(app.picture.url)
+                    console.log(app.picture)
+                    if (result.success) {
+                        app.picture.url = "/screenos"+result.phoUrl;
+                        app.picture.picsize = result.picsize;
+                        app.picture.realpath = result.path;
+                        console.log(result)
+                        console.log(app.picture)
+                    }
                 },
                 error: function (returndata) {
                     console.log("错误信息：")
                     console.log(returndata)
 
                     var formData = new FormData();//初始化一个FormData对象
-                    // formData.append("file", $(".notFormFile")[0].files[0]);//将文件塞入FormData
                     formData.append("file", $(".layui-upload-file")[0].files[0]);//将文件塞入FormData
                     $.ajax({
                         url: "/screenos/user/upload",
@@ -225,7 +229,9 @@
                         success: function (json) {
                             layer.closeAll();
                             if (json.status == 0) {
-                                app.picture.url = json.url;
+                                app.picture.url = "/screenos"+json.url;
+                                app.picture.realpath = json.realpath;
+                                app.picture.picsize = json.picsize;
                                 layer.open({
                                     title: '裁剪失败提醒',
                                     icon: 6,
@@ -292,19 +298,17 @@
                             });
                         }
                     });
+                },
+                complete: function () {
+                    refresh();
                 }
             });
-            $('#EditImg').cropper('destroy');
-            console.log("itshoudesed!")
-            $("#myshow").hide();
-            $("#shangchuan").hide();
-            $("#upicon").hide();
-            $("#EditImg").attr(
-                "src",app.picture.url
-            )
-            layer.msg("裁剪完毕", {icon: 6});
+            refresh();
         });
     });
+
+
+
     function convertToData(url, canvasdata, cropdata, callback) {
         var cropw = cropdata.width; // 剪切的宽
         var croph = cropdata.height; // 剪切的宽
@@ -333,9 +337,8 @@
         }
     }
 
-    function back(){
-        window.history.go(-1)
-    }
+
+
     var stompClient = null;
 
     function connect() {
@@ -346,6 +349,8 @@
             })
         });
     }
+
+
 
     // connect();
     layui.use(['element', 'upload', 'form', 'laydate'], function () {
@@ -373,8 +378,10 @@
                 if (json.status == 0) {
                     // $("#img").css("height", "800px");
                     app.picture.url = "/screenos"+json.url;
+                    app.picture.realpath = json.realpath;
+                    app.picture.picsize = json.picsize;
                     console.log("app.picture.url"+app.picture.url)
-                    app.picture.filename=app.picture.url.substring(17);
+                    app.picture.filename=app.picture.url.substring(24);
                     $('#EditImg').cropper('replace', app.picture.url,false);
                     layer.msg("上传成功,请开始裁剪", {icon: 6});
                 } else {
@@ -397,12 +404,19 @@
             }
         });
     });
+
+
+
+
+
     var app = new Vue({
         el: '.main-content',
         data: {
             picture: {
                 picturename: "",
                 url: "",
+                realpath: "",
+                picsize: "",
                 endDate: "",
             },
             mysessionId:'',
@@ -416,60 +430,74 @@
                         title: '错误信息',
                         icon: 5,
                         offset: '300px',
-                        content: "活动名称不能为空",
+                        content: "图片名称不能为空",
                     });
                 else if (app.picture.url == "")
                     layer.open({
                         title: '错误信息',
                         icon: 5,
                         offset: '300px',
-                        content: "活动链接不能为空",
+                        content: "图片链接不能为空",
                     });
                 else if (app.picture.endDate == ""){
-                    // layer.open({
-                    //     title: '错误信息',
-                    //     icon: 5,
-                    //     offset: '300px',
-                    //     content: "活动时间不能为空",
-                    // });
-                    app.picture.endDate=laydate.now(+1);
+                    layer.open({
+                        title: '错误信息',
+                        icon: 5,
+                        offset: '300px',
+                        content: "图片时间不能为空",
+                    });
+                    // app.picture.endDate=laydate.now(+1);
                 }
                 else {
-                    jQuery.ajax({
+                    console.log(app.picture);
+                    $.ajax({
                         type: 'POST',
                         url: "/screenos/user/savePicture",
                         data: app.picture,
                         dataType: 'json',
                         success: function (json) {
-                            console.log(app.url)
                             layer.closeAll('loading')
-                            if (json.status == 0) {
+                            if (json.status == 1 ) {
                                 // sendMessage();
-                                app.url={};
+                                app.picture.url={};
+                                console.log("savesuccess")
                                 layer.open({
-                                    title: '提交成功',
+                                    title: '提交信息',
                                     icon: 6,
-                                    content: json.url,
                                     offset: '300px',
-                                    yes: function(index, layero){
-                                        //do something
-                                        layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                        window.location.href="/index";
-                                    },
-                                    cancel: function(index, layero){
-                                        layer.close(index);
-                                        window.location.href="/index";
-                                        return false;
-                                    }
+                                    content: "成功提交",
                                 });
+                                // layer.open({
+                                //     title: '提交成功',
+                                //     icon: 6,
+                                //     content: json.url,
+                                //     // offset: '300px',
+                                //     yes: function(index, layero){
+                                //         //do something
+                                //         layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                //         window.location.href="/index";
+                                //     },
+                                //     cancel: function(index, layero){
+                                //         layer.close(index);
+                                //         window.location.href="/index";
+                                //         return false;
+                                //     }
+                                // });
 
                             } else {
+                                console.log("savesuccess")
                                 layer.open({
-                                    title: '提交不成功',
+                                    title: '错误信息',
                                     icon: 5,
                                     offset: '300px',
-                                    content: json.url,
+                                    content: "提交失败，请联系管理员",
                                 });
+                                // layer.open({
+                                //     title: '提交不成功',
+                                //     icon: 5,
+                                //     // offset: '300px',
+                                //     content: json.url,
+                                // });
                             }
                         }
                     });
@@ -479,7 +507,7 @@
                 this.isDisplay=!this.isDisplay;$('#inputImage').click();
             },
             logout: function () {
-                jQuery.ajax({
+                $.ajax({
                     type: 'POST',
                     url: "/user/logout",
                     data: {
@@ -512,5 +540,18 @@
         window.history.go(-1)
     }
 
+    function refresh(){
+        console.log("ajaxover");
+        $('#EditImg').cropper('destroy');
+        console.log("itshoudesed!")
+        $("#myshow").hide();
+        $("#shangchuan").hide();
+        $("#upicon").hide();
+        console.log("将要替换的url:"+app.picture.url)
+        $("#EditImg").attr(
+            "src",app.picture.url
+        )
+        layer.msg("裁剪完毕", {icon: 6});
+    }
 
 </script>

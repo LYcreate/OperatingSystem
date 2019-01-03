@@ -19,7 +19,7 @@
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
     <!--<mvc:resources mapping="/imgs/**" location="D:\\ImgBase\\"/>-->
     <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/ImgFiles/backgroundImg/**" location="file:D:\\ImgBase\\" />
+    <mvc:resources mapping="/ImgFiles/backgroundImg/**" location="file:D:\\ImgBase\\myBase64Files\\" />
     <!--<mvc:resources mapping="/${mapping_path}/**" location="file:${local_path}/"/>-->
     <mvc:resources mapping="/imgs/**" location="file:D:\\ImgBase\\"/>
     <mvc:resources mapping="/js/**" location="/js/" />

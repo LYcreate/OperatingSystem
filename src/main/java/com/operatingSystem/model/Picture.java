@@ -15,10 +15,24 @@ public class Picture {
         subDate = new Date();
     }
 
-    public Picture(String picturename, String url,String endDate, String suber) {
+    public Picture(String picturename, String url,String endDate, String suber,
+                    String realpath, Integer picsize) {
         super();
         ensureId();
         subDate = new Date();
+        this.setPicturename(picturename);
+        this.setUrl(url);
+        this.setEndDate(endDate);
+        this.setSuber(suber);
+        this.setPicsize(picsize);
+        this.setRealpath(realpath);
+        this.hide="1";
+    }
+
+    public Picture(String picturename, String url,String endDate, String suber) {
+        super();
+        ensureId();
+        this.subDate = new Date();
         this.setPicturename(picturename);
         this.setUrl(url);
         this.setEndDate(endDate);
@@ -35,7 +49,9 @@ public class Picture {
 
     private String picturename; // 活动名字
 
-    private String url;//图片地址
+    private String url;//图片请求地址
+
+    private String realpath;//图片真实路径
 
     @Temporal(value = TemporalType.DATE)
     private Date subDate; // 投放时间
@@ -44,6 +60,8 @@ public class Picture {
     private Date endDate; // 结束时间
 
     private String suber;//投稿人
+
+    private Integer picsize;//投稿人
 
     private String hide;//是否隐藏   1yes 0no
 
@@ -83,6 +101,17 @@ public class Picture {
         return this;
     }
 
+    public String getRealpath() {
+        if (realpath == null) {
+            return "imgs/defaultpic.png";
+        }
+        return realpath;
+    }
+
+    public void  setRealpath(String realpath) {
+        this.realpath = realpath;
+    }
+
     public Date getSubDate() {
         return subDate;
     }
@@ -90,6 +119,15 @@ public class Picture {
     public void setSubDate(Date subDate) {
         this.subDate = subDate;
     }
+
+    public Integer getPicsize() {
+        return picsize;
+    }
+
+    public void setPicsize(Integer picsize) {
+        this.picsize = picsize;
+    }
+
 
     public Date getEndDate() {
         return endDate;
