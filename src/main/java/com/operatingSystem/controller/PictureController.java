@@ -87,7 +87,7 @@ public class PictureController {
         }
         System.out.println(request.toString());
         UploadResolver uploadResolver = new UploadResolver();
-        uploadImageMap = uploadResolver.uploadImgByStream(file,request);
+        uploadImageMap = uploadResolver.uploadImgByStream(file,"0");
         return uploadImageMap;
     }
 

@@ -75,7 +75,7 @@ public class UploadResolver {
      * @param file
      * @return
      */
-    public @ResponseBody  Map<String, String> uploadImgByStream(MultipartFile file, HttpServletRequest request) {
+    public @ResponseBody  Map<String, String> uploadImgByStream(MultipartFile file,String id) {
         System.out.println("处理开始！");
         Map<String, String> uploadImageMap  =  new HashMap<>();
 //        String id = new String();
@@ -83,7 +83,6 @@ public class UploadResolver {
 //            id = ((User)request.getSession().getAttribute(User.CURRENT_USER)).getUid();
 //        }catch (Exception e)
 //        {
-        String id = "16124400";
 //        }
         String path = ImgBase+id;
         System.out.println("开始执行文件上传");
@@ -133,7 +132,7 @@ public class UploadResolver {
 
     /**
      * 上传图片，基于Base64转码，以String类型传输
-     * @param id
+     * @param
      * @return
      */
     @ResponseBody
@@ -164,7 +163,7 @@ public class UploadResolver {
     /**
      * 上传base64 单个图片工具类
      * @param imgBase64 图片base64
-     * @param fileName 图片名称
+     * @param  图片名称
      * @return
      */
     public Map<String, String> uploadImgBase64(
