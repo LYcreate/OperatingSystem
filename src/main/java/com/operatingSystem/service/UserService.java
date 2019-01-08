@@ -10,4 +10,6 @@ public interface UserService {
     public User getUserByIdAndPassword(User user) throws Exception;
     public User insertOneUser(User user) throws Exception;
     public int deleteUserById(User user) throws Exception;
+    public User getUserByUid(String uid);
+    public int updateUserSessionId(User user);
 }

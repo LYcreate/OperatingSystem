@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -29,6 +32,31 @@ public class UserController {
         return NetResult;
     }
 
+    @RequestMapping(value = "/user/login",method = RequestMethod.POST)
+    public @ResponseBody NetResult login(HttpServletRequest request) throws Exception{
+        NetResult netResult=new NetResult();
+        String uid=request.getParameter("uid");
+        System.out.println(uid);
+        User user=userService.getUserByUid(uid);
+        if (user==null){
+            netResult.status=1;
+            netResult.result="Username dosen't exit!";
+        }else {
+            String password=request.getParameter("password");
+            if (password.equals(user.getPassword())){
+                netResult.status=0;
+                netResult.result="Successfully login!";
+                request.getSession().setAttribute(User.CURRENT_USER,user);
+                String sessionId=request.getSession().getId();
+                user.setSessionId(sessionId);
+                userService.updateUserSessionId(user);
+            }else {
+                netResult.status=1;
+                netResult.result="Password error!";
+            }
+        }
+        return netResult;
+    }
     @RequestMapping(value = "/getallusers")
     public @ResponseBody
         List<User> getAllusers() throws Exception{

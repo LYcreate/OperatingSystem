@@ -10,4 +10,6 @@ public interface UserMapper {
    public User insertOneUser(User user);
    public int deleteUserById(User user);
    public List<User> getAllUsers() throws Exception;
+   public User getUserByUid(String userUid);
+   public int updateUserSessionId(User user);
 }

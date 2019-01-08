@@ -31,7 +31,6 @@
     <!--<mvc:resources mapping="/**" location="/screenos/" />-->
     <!--使用注解(可以代替配置映射器和适配器)-->
     <mvc:annotation-driven/>
-
     <!--扫描带有注解的控制类，不可以放在Spring的配置中-->
     <context:component-scan base-package="com.operatingSystem.controller"/>
 
@@ -45,6 +44,5 @@
         <property name="maxUploadSize" value="20000000"/>
         <property name="defaultEncoding" value="utf-8"></property>
     </bean>
-
     <!--<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>-->
 </beans>
