@@ -34,7 +34,7 @@ public class User {
         ensureId();
         this.uid = uid;
         this.username = name;
-        this.setPassword(password);
+        this.setPassword(encryptPassword(password));
         this.createDate = new Date();
         this.userType = userType;
         this.part = part;

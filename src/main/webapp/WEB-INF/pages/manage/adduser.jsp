@@ -101,9 +101,9 @@
                         else if (app.user.username == "")
                             layer.alert("姓名不能为空", {icon: 5});
                         else {
-                            jQuery.ajax({
+                            $.ajax({
                                 type: 'POST',
-                                url: "/user/saveUser",
+                                url: "/screenos/user/saveUser",
                                 data: app.user,
                                 dataType: 'json',
                                 success: function (json) {
@@ -119,7 +119,7 @@
                         }
                     },
                     logout: function () {
-                        jQuery.ajax({
+                        $.ajax({
                             type: 'POST',
                             url: "/user/logout",
                             data: {
