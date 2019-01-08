@@ -54,7 +54,7 @@
       #{part},#{sessionId})
     </insert>
 
-    <delete id="deleteUserById" parameterType="com.operatingSystem.model.User">
+    <delete id="deleteUserById">
         delete from user where id=#{id}
     </delete>
 
