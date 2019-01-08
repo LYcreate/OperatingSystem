@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User insertOneUser(User user) throws Exception{
+    public int insertOneUser(User user) throws Exception{
         return userMapper.insertOneUser(user);
     }
 

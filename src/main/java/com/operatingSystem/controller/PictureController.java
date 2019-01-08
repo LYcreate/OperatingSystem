@@ -1,4 +1,5 @@
 package com.operatingSystem.controller;
+import com.operatingSystem.Utils.ImageReptile;
 import com.operatingSystem.Utils.NetResult;
 import com.operatingSystem.model.Picture;
 import com.operatingSystem.service.PictureService;
@@ -120,4 +121,25 @@ public class PictureController {
         return r;
     }
 
+    @RequestMapping(value = "/searchpictrues")
+    public @ResponseBody NetResult onlineSearch(
+            String keyword,
+            String num,
+            String batch) {
+        NetResult result = new NetResult();
+        ImageReptile i = new ImageReptile();
+        result.status = 0;
+        result.result = i.OnlineSearch(keyword,num,batch);
+        return result;
+    }
+
+    @RequestMapping(value = "/getorgipictrues")
+    public @ResponseBody NetResult getOrgiPictrues(
+            String orginalfilename) {
+        NetResult result = new NetResult();
+        ImageReptile i = new ImageReptile();
+        result.status = 0;
+        result.result = i.DownloadFullImage(orginalfilename);
+        return result;
+    }
 }

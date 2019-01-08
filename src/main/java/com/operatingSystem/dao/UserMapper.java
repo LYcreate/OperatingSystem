@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserMapper {
    public User getUserByIdAndPassword(User user);
    public User getUserByUsername(String username);
-   public User insertOneUser(User user);
+   public int insertOneUser(User user);
    public int deleteUserById(User user);
    public List<User> getAllUsers() throws Exception;
 }

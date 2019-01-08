@@ -10,7 +10,7 @@
         <result column="gender" property="gender"></result>
         <result column="part" property="part"></result>
         <result column="session_id" property="sessionId"></result>
-        <result column="login_count" property="loginCount"></result>
+        <!--<result column="login_count" property="loginCount"></result>-->
         <result column="user_type" property="userType"></result>
         <result column="create_date" property="createDate"></result>
         <result column="login_date"  property="loginDate"></result>
@@ -44,10 +44,10 @@
       user
       (id, username, uid, password,
       login_date,create_date,user_type,gender,
-      part,session_id,login_count)
+      part,session_id)
       VALUES (#{id},#{username},#{uid},#{password},
       #{loginDate},#{createDate},#{userType},#{gender},
-      #{part},#{sessionId},#{loginCount})
+      #{part},#{sessionId})
     </insert>
 
     <delete id="deleteUserById" parameterType="com.operatingSystem.model.User">

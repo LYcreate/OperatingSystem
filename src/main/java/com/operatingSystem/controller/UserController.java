@@ -66,7 +66,7 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "/user/saveUser")
+    @RequestMapping(value = "/user/saveUser",produces = {"text/html;charset=utf-8"})
     public @ResponseBody NetResult saveUser(
             @RequestParam String username,
             @RequestParam String uid,
@@ -76,15 +76,15 @@ public class UserController {
             @RequestParam String part) {
         User user = new User(uid, username, password,userType,part,gender);
         try{
-            user = userService.insertOneUser(user);
+            userService.insertOneUser(user);
         }catch (Exception e)
         {
             System.out.println(e);
         }
         NetResult result = new NetResult();
-        System.out.println(user.getId());
         result.status = 0;
         result.result = "上传成功";
+        System.out.println(result.result);
         return result;
     }
 
