@@ -34,8 +34,15 @@ public class PictureController {
         return testPics;
     }
 
-    @RequestMapping(value = "/getallpics",    method = RequestMethod.GET)
+    @RequestMapping(value = "/getallpics")
     public @ResponseBody List<Picture> getAllpics() throws Exception{
+        System.out.println("getAllpics!");
+        List<Picture> pics = pictureService.getAllPictures();
+        return pics;
+    }
+
+    @RequestMapping(value = "/getallpictrues" )
+    public @ResponseBody List<Picture> getAllpictrues() throws Exception{
         System.out.println("getAllpics!");
         List<Picture> pics = pictureService.getAllPictures();
         return pics;
@@ -57,23 +64,6 @@ public class PictureController {
         return pic;
     }
 
-//    @RequestMapping(value = "/user/saveAct", method = RequestMethod.POST)
-//    public NetResult saveAct(@RequestParam String actname,
-//                             @RequestParam String picture,
-//                             @RequestParam String endDate,
-//                             @RequestParam String address,
-//                             HttpSession session) {
-//        User user = (User)session.getAttribute(User.CURRENT_USER);
-//        NetResult r = new NetResult();
-//        String suber = user.getUsername();
-//        Act act = new Act(actname, picture, endDate, suber==null?"123456":suber, address);
-//        actRepository.save(act);
-//        r.result="你的图片有问题";
-//        r.status=0;
-//        return r;
-//    }
-
-//
     @RequestMapping(value = "/user/upload")
     public @ResponseBody Map<String, String> upload2(@RequestParam MultipartFile file, HttpServletRequest request) {
         Map<String, String> uploadImageMap  =  new HashMap<>();
