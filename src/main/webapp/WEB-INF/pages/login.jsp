@@ -102,9 +102,10 @@
                 },
                 methods: {
                     login: function () {
+                        console.log(JSON.stringify(app.user));
                         jQuery.ajax({
                             type: 'POST',
-                            url: "/user/login",
+                            url: "<%=path%>/user/login",
                             data: app.user,
                             dataType: 'json',
                             success: function (json) {

@@ -20,6 +20,10 @@
         select * from user where id=#{id} and password=#{password}
     </select>
 
+    <select id="getUserByUid" resultMap="userResultMap">
+        select * from user where uid=#{uid}
+    </select>
+
     <select id="getUserByUsername" resultMap="userResultMap">
         select * from user where username=#{username}
     </select>
@@ -53,4 +57,8 @@
     <delete id="deleteUserById" parameterType="com.operatingSystem.model.User">
         delete from user where id=#{id}
     </delete>
+
+    <update id="updateUserSessionId" parameterType="com.operatingSystem.model.User">
+        update user set session_id=#{sessionId}
+    </update>
 </mapper>
