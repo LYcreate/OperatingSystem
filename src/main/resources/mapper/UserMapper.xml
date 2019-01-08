@@ -51,6 +51,6 @@
     </insert>
 
     <delete id="deleteUserById" parameterType="com.operatingSystem.model.User">
-        delete from user where id=#{id} and password=#{password}
+        delete from user where id=#{id}
     </delete>
 </mapper>

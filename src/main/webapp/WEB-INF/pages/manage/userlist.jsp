@@ -10,12 +10,13 @@
             <table id="allusers" class="layui-table" v-cloak style="table-layout:fixed;">
                 <colgroup>
                     <col width="5%">
-                    <col width="15%">
+                    <col width="10%">
                     <col width="10%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="25%">
+                    <col width="20%">
                     <col width="15%">
+                    <col width="10%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -26,6 +27,7 @@
                     <th>性别</th>
                     <th>最后登录时间</th>
                     <th>所属院系</th>
+                    <th>有关操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,6 +39,13 @@
                     <td>{{user.gender==1?"男":user.gender==2?"其他":"女"}}</td>
                     <td>{{user.loginDate}}
                     <td>{{user.part}}</td>
+                    <td>
+                        <div class="layui-btn-group">
+                            <button class="layui-btn  layui-btn-normal" v-on:click="del(user)"><i
+                                    class="layui-icon"></i>删除
+                            </button>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -60,21 +69,47 @@
             },
             methods: {
                 load: function () {
-                    $.post("/manage/getAllUsers", function (result) {
-                        users = result.result;
-                        for(i=0;i<users.length;i++)
-                        {
-                            if(users[i].loginDate == null)
-                                users[i].loginDate="从未登陆";
-                            else {
-                                users[i].loginDate=users[i].loginDate.substring(0,10);
+                    $.ajax({
+                        type: 'POST',
+                        url: "/screenos/getallusers",
+                        dataType: 'json',
+                        success: function (result) {
+                            var users = result;
+                            for (i = 0; i < users.length; i++) {
+                                if (users[i].loginDate == null)
+                                    users[i].loginDate = "从未登陆";
+                                else {
+                                    users[i].loginDate = getLocalTime(users[i].loginDate/1000);
+                                }
                             }
+                            app.users = users;
                         }
-                        app.users=users;
-                    })
+                    });
+                },
+                del:function (user) {
+                    layer.confirm('确定删除？', {
+                        btn: ['确定','取消'] //按钮
+                    }, function() {
+                        console.log(user)
+                        $.ajax({
+                            type: 'POST',
+                            url: "/screenos/deleteuser",
+                            data: {'id':user.id},
+                            dataType: 'json',
+                            success: function (json) {
+                                layer.closeAll('loading')
+                                if (json.status == 0) {
+                                    layer.msg(json.result, {icon: 6});
+                                    app.load();
+                                } else {
+                                    layer.alert(json.result, {icon: 5});
+                                }
+                            }
+                        });
+                    });
                 },
                 logout: function () {
-                    jQuery.ajax({
+                    $.ajax({
                         type: 'POST',
                         url: "/user/logout",
                         data: {},
@@ -99,5 +134,9 @@
 
     function back() {
         window.history.go(-1)
+    }
+
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
 </script>

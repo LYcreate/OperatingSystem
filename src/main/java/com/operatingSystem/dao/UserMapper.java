@@ -8,6 +8,6 @@ public interface UserMapper {
    public User getUserByIdAndPassword(User user);
    public User getUserByUsername(String username);
    public int insertOneUser(User user);
-   public int deleteUserById(User user);
+   public int deleteUserById(String id);
    public List<User> getAllUsers() throws Exception;
 }

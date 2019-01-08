@@ -30,10 +30,12 @@ public class PictureServiceImpl implements PictureService {
         return pictureMapper.getAllPictures();
     }
 
+    @Override
     public int insertOnePicture(Picture picture) throws Exception{
         return pictureMapper.insertOnePicture(picture);
     }
 
+    @Override
     public int deletePictureById(String id) throws Exception{
         return pictureMapper.deletePictureById(id);
     }

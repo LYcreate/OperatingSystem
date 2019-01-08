@@ -12,14 +12,14 @@
     <title>管理后台</title>
     <link rel="stylesheet" href="/screenos/old/layui/css/layui.css"/>
     <link rel="stylesheet" href="/screenos/css/cropper.css"/>
-    <link rel="stylesheet" href="/screenos/css/bootstrap.min.css">
+    <%--<link rel="stylesheet" href="/screenos/css/bootstrap.min.css">--%>
     <script src="/screenos/js/vue1.0.js"></script>
     <script src="/screenos/js/jquery.min.js"></script>
     <script src="/screenos/old/layui/layui.js"></script>
     <script src="/screenos/js/stomp.js"></script>
     <script src="/screenos/js/sockjs.min.js"></script>
     <script src="/screenos/js/cropper.js"></script>
-    <script src="/screenos/js/bootstrap.min.js"></script>
+    <%--<script src="/screenos/js/bootstrap.min.js"></script>--%>
 </head>
 <body class="layui-layout-body">
 <div class="layui-header">

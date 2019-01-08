@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="template/head-nav.jsp"%>
+<script src="/screenos/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/screenos/css/bootstrap.min.css">
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
     <legend>活动列表</legend>
@@ -144,8 +146,8 @@
                         console.log(picture)
                         $.ajax({
                             type: 'POST',
-                            url: "/screenos/deletepicture",
-                            data:picture,
+                            url: "/screenos/deletepictrue",
+                            data: {'id':picture.id},
                             dataType: 'json',
                             success: function (json) {
                                 layer.closeAll('loading')

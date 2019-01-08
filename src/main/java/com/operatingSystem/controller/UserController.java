@@ -45,12 +45,12 @@ public class UserController {
         return pics;
     }
 
-    @RequestMapping(value = "/deleteUser",method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteuser")
     public NetResult deleteUser(@RequestParam String id) {
-        User user = new User();
-        user.setId(id);
+//        User user = new User();
+//        user.setId(id);
         try {
-            int an = userService.deleteUserById(user);
+            int an = userService.deleteUserById(id);
         }catch (Exception e)
         {
             System.out.println(e);
@@ -87,5 +87,14 @@ public class UserController {
         System.out.println(result.result);
         return result;
     }
+
+//    @RequestMapping(value = "/manage/deleteUser",method = RequestMethod.GET)
+//    public NetResult deleteUser(User user) {
+//        userService.deleteUserById(user);
+//        NetResult result = new NetResult();
+//        result.status = 0;
+//        result.result = "删除成功";
+//        return result;
+//    }
 
 }

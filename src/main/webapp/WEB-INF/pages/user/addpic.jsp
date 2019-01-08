@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="template/head-nav.jsp"%>
+
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
     <legend>分享新的图片</legend>
@@ -380,9 +381,10 @@
                     app.picture.url = "/screenos"+json.url;
                     app.picture.realpath = json.realpath;
                     app.picture.picsize = json.picsize;
-                    console.log("app.picture.url"+app.picture.url)
+                    console.log("app.picture.url:"+app.picture.url)
                     app.picture.filename=app.picture.url.substring(24);
                     $('#EditImg').cropper('replace', app.picture.url,false);
+                    console.log("cropperstart")
                     layer.msg("上传成功,请开始裁剪", {icon: 6});
                 } else {
                     layer.open({
@@ -467,22 +469,6 @@
                                     offset: '300px',
                                     content: "成功提交",
                                 });
-                                // layer.open({
-                                //     title: '提交成功',
-                                //     icon: 6,
-                                //     content: json.url,
-                                //     // offset: '300px',
-                                //     yes: function(index, layero){
-                                //         //do something
-                                //         layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                //         window.location.href="/index";
-                                //     },
-                                //     cancel: function(index, layero){
-                                //         layer.close(index);
-                                //         window.location.href="/index";
-                                //         return false;
-                                //     }
-                                // });
 
                             } else {
                                 console.log("savesuccess")

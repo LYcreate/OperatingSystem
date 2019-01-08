@@ -75,15 +75,9 @@ public class UploadResolver {
      * @param file
      * @return
      */
-    public @ResponseBody  Map<String, String> uploadImgByStream(MultipartFile file,String id) {
+    public @ResponseBody  Map<String, String> uploadImgByStream(MultipartFile file,  String id) {
         System.out.println("处理开始！");
         Map<String, String> uploadImageMap  =  new HashMap<>();
-//        String id = new String();
-//        try {
-//            id = ((User)request.getSession().getAttribute(User.CURRENT_USER)).getUid();
-//        }catch (Exception e)
-//        {
-//        }
         String path = ImgBase+id;
         System.out.println("开始执行文件上传");
         System.out.println(file.getOriginalFilename());
@@ -132,23 +126,23 @@ public class UploadResolver {
 
     /**
      * 上传图片，基于Base64转码，以String类型传输
-     * @param
+     * @param id
      * @return
      */
     @ResponseBody
     public Map<String, String> uploadImgBase(
             @RequestParam(value="imgBase64",defaultValue="") String imgBase64,
             @RequestParam(value="fileName",defaultValue="") String fileName,
-            HttpServletRequest request, HttpServletResponse response){
-        String userUid = "16124400";
-        try {
-            userUid = ((User) request.getSession().getAttribute(User.CURRENT_USER)).getUid();
-            if (userUid.equals("") || userUid == null)
-                userUid = "16124400";
-        }catch (Exception e)
-        {
-            userUid = "16124400";
-        }
+            String userUid, HttpServletResponse response){
+//        String userUid = "16124400";
+//        try {
+//            userUid = ((User) request.getSession().getAttribute(User.CURRENT_USER)).getUid();
+//            if (userUid.equals("") || userUid == null)
+//                userUid = "16124400";
+//        }catch (Exception e)
+//        {
+//            userUid = "16124400";
+//        }
         String TrueDirectory = "myBase64Files";
         String inventedDirectory = "ImgFiles/"+"backgroundImg";
         String directory = TrueDirectory+"-"+inventedDirectory;
@@ -156,18 +150,17 @@ public class UploadResolver {
         System.out.println(imgBase64);
         System.out.println("filename");
         System.out.println(fileName);
-        Map<String, String> map = uploadImgBase64(request,imgBase64, directory, fileName,userUid);
+        Map<String, String> map = uploadImgBase64(imgBase64, directory, fileName,userUid);
         return map;
     }
 
     /**
      * 上传base64 单个图片工具类
      * @param imgBase64 图片base64
-     * @param  图片名称
+     * @param fileName 图片名称
      * @return
      */
     public Map<String, String> uploadImgBase64(
-            HttpServletRequest request,
             String imgBase64,
             String Directory,
             String oldFileName,

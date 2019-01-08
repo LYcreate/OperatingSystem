@@ -35,7 +35,7 @@
     </insert>
 
     <delete id="deletePictureById" parameterType="String">
-
+       delete from picture where id=#{id}
     </delete>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.operatingSystem.controller;
 import com.operatingSystem.Utils.ImageReptile;
 import com.operatingSystem.Utils.NetResult;
 import com.operatingSystem.model.Picture;
+import com.operatingSystem.model.User;
 import com.operatingSystem.service.PictureService;
 import com.operatingSystem.Utils.UploadResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,8 @@ public class PictureController {
         }
         System.out.println(request.toString());
         UploadResolver uploadResolver = new UploadResolver();
-        uploadImageMap = uploadResolver.uploadImgByStream(file,"0");
+        //String id = ((User)request.getSession().getAttribute(User.CURRENT_USER)).getUid();
+        uploadImageMap = uploadResolver.uploadImgByStream(file,"16124400");
         return uploadImageMap;
     }
 
@@ -89,10 +91,11 @@ public class PictureController {
             HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, String> uploadImageMap  =  new HashMap<>();
+        //String userUid = ((User) request.getSession().getAttribute(User.CURRENT_USER)).getUid();
         System.out.println("imgBase64"+imgBase64);
         System.out.println("fileName"+fileName);
         UploadResolver uploadResolver = new UploadResolver();
-        uploadImageMap = uploadResolver.uploadImgBase(imgBase64,fileName,request,response);
+        uploadImageMap = uploadResolver.uploadImgBase(imgBase64,fileName,"16124400",response);
         return uploadImageMap;
     }
 
@@ -140,6 +143,21 @@ public class PictureController {
         ImageReptile i = new ImageReptile();
         result.status = 0;
         result.result = i.DownloadFullImage(orginalfilename);
+        return result;
+    }
+
+    @RequestMapping(value = "/deletepictrue")
+    public NetResult deletePicture(@RequestParam String id) {
+        try {
+            int an = pictureService.deletePictureById(id);
+            System.out.println(an);
+            System.out.println("an");
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        NetResult result = new NetResult();
+        result.status = 0;
+        result.result = "删除成功";
         return result;
     }
 }
