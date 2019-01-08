@@ -5,4 +5,5 @@ import com.operatingSystem.model.User;
 public interface UserService {
     public User getUserByIdAndPassword(User user) throws Exception;
     public User insertOneUser(User user) throws Exception;
+    public int deleteUserById(User user) throws Exception;
 }

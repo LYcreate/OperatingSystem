@@ -30,7 +30,11 @@ public class PictureServiceImpl implements PictureService {
         return pictureMapper.getAllPictures();
     }
 
-    public void insertOnePicture(Picture picture) throws Exception{
-        pictureMapper.insertOnePicture(picture);
+    public int insertOnePicture(Picture picture) throws Exception{
+        return pictureMapper.insertOnePicture(picture);
+    }
+
+    public int deletePictureById(String id) throws Exception{
+        return pictureMapper.deletePictureById(id);
     }
 }

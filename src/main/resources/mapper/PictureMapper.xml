@@ -14,15 +14,15 @@
         <result column="end_date" property="endDate"></result>
     </resultMap>
     <!--//select//-->
-    <select id="getPictureById" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+    <select id="getPictureById" parameterType="String" resultMap="pictureResultMap">
         select * from picture where id=#{id}
     </select>
 
-    <select id="getPictureByPicturename" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+    <select id="getPictureByPicturename" parameterType="String" resultMap="pictureResultMap">
         select * from picture where picturename=#{picturename}
     </select>
 
-    <select id="getAllPictures" parameterType="com.operatingSystem.model.Picture" resultMap="pictureResultMap">
+    <select id="getAllPictures" resultMap="pictureResultMap">
         select * from picture
     </select>
 
@@ -34,5 +34,8 @@
       VALUES (#{id},#{picturename},#{subDate},#{endDate},#{url},#{hide},#{suber},#{realpath},#{picsize})
     </insert>
 
+    <delete id="deletePictureById" parameterType="String">
+
+    </delete>
 
 </mapper>
