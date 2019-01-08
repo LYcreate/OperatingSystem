@@ -20,6 +20,13 @@
         select * from user where id=#{id} and password=#{password}
     </select>
 
+    <select id="getUserByUsername" resultMap="userResultMap">
+        select * from user where username=#{username}
+    </select>
+
+    <select id="getAllUsers" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">
+        select * from user
+    </select>
     <!--<select id="getUserByIdAndPassword" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">-->
         <!--select * from user where id=#{id} and password=#{password}-->
     <!--</select>-->
