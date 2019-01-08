@@ -25,12 +25,10 @@
     <!--优先级，数字越小级别越高-->
     <load-on-startup>1</load-on-startup>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>SpringMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-
   <!--解决字符编码异常的过滤器-->
   <filter>
     <filter-name>EncodingFilter</filter-name>

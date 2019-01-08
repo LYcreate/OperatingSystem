@@ -5,4 +5,5 @@ import com.operatingSystem.model.User;
 public interface UserMapper {
    public User getUserByIdAndPassword(User user);
    public User insertOneUser(User user);
+   public int deleteUserById(User user);
 }

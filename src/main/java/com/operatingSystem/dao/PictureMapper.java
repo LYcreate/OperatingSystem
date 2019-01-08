@@ -8,6 +8,6 @@ public interface PictureMapper {
     public List<Picture> getAllPictures();
     public Picture getPictureById(String id);
     public List<Picture> getPictureByPicturename(String picturename);
-    public void insertOnePicture(Picture picture);
-
+    public int insertOnePicture(Picture picture);
+    public int deletePictureById(String id);
 }

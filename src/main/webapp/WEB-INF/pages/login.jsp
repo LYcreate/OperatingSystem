@@ -1,5 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path=request.getContextPath();
+    String basePath=request.getScheme()+"://"+request.getServerName()+":"
+    +request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -8,12 +13,12 @@
     <meta charset="UTF-8">
     <title>校园互动屏</title>
     <!--<link rel="stylesheet" href="/layui/css/layui.css"/>-->
-    <link rel="stylesheet" href="/old/layui/css/layui.css"/>
-    <script src="/js/vue1.0.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/old/layui/layui.js"></script>
-    <script src="/js/stomp.js"></script>
-    <script src="/js/sockjs.min.js"></script>
+    <link rel="stylesheet" href="<%=basePath%>/old/layui/css/layui.css"/>
+    <script src="<%=basePath%>/js/vue1.0.js"></script>
+    <script src="<%=basePath%>/js/jquery.min.js"></script>
+    <script src="<%=basePath%>/old/layui/layui.js"></script>
+    <script src="<%=basePath%>/js/stomp.js"></script>
+    <script src="<%=basePath%>/js/sockjs.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -55,9 +60,10 @@
                     <hr/>
                     <button class="layui-btn layui-btn-big btn-login" v-on:click="master" style="width:300px;">快捷管理登录</button></div>
             </div>
+        </fieldset>
     </div>
 </div>
-</fieldset>
+
 <!--<table class="layui-table table-striped table-bordered table-hover" style="table-layout:fixed">-->
 <!--<tr>-->
 <!--<th colspan="1" style="text-align:center">用户账号</th>-->

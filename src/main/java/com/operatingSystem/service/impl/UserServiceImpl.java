@@ -21,4 +21,8 @@ public class UserServiceImpl implements UserService {
     public User insertOneUser(User user) throws Exception{
         return userMapper.insertOneUser(user);
     }
+
+    public int deleteUserById(User user) throws Exception{
+        return userMapper.deleteUserById(user);
+    }
 }
