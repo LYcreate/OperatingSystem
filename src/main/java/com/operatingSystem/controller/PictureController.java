@@ -34,8 +34,15 @@ public class PictureController {
         return testPics;
     }
 
-    @RequestMapping(value = "/getallpics",    method = RequestMethod.GET)
+    @RequestMapping(value = "/getallpics")
     public @ResponseBody List<Picture> getAllpics() throws Exception{
+        System.out.println("getAllpics!");
+        List<Picture> pics = pictureService.getAllPictures();
+        return pics;
+    }
+
+    @RequestMapping(value = "/getallpictrues" )
+    public @ResponseBody List<Picture> getAllpictrues() throws Exception{
         System.out.println("getAllpics!");
         List<Picture> pics = pictureService.getAllPictures();
         return pics;
