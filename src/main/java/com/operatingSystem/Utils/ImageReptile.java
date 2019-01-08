@@ -13,50 +13,49 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ImageReptile {
-    // »ñÈ¡img±êÇ©¼°¶ÔÓ¦ÍøÕ¾Á´½ÓÕıÔò
     private static final String downloadURL= "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-%%.jpg" ;
     private static final String downloadURL2= "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-%%.png" ;
-    // ÏÂÔØ´óÍ¼Á¬½Ó
+    // ä¸‹è½½å¤§å›¾è¿æ¥
     private static final String searchURL = "https://alpha.wallhaven.cc/search?q=%%&categories=111&purity=100&sorting=relevance&order=desc&page=2";
-    // ÏÂÔØĞ¡Í¼ÍøÕ¾
+    // ä¸‹è½½å°å›¾ç½‘ç«™
     private static final String IMGURL = "<figure(.*?)><img(.*?)>" ;
-    // »ñÈ¡src´óÍ¼Â·¾¶µÄÕıÔò
+    // è·å–srcå¤§å›¾è·¯å¾„çš„æ­£åˆ™
     private static final String IMGSRC_HTML = "/(.*?)\\.html";
-    // »ñÈ¡srcÂ·¾¶µÄÕıÔò
+    // è·å–srcè·¯å¾„çš„æ­£åˆ™
     private static final String IMGSRC_REG = "https:(.*?)\\.jpg";
     private static final String IMG = "<img(.*?)>";
     private static final String sep = File.separator;
-    private static final String PATH = "D:"+sep+"Image"+sep;
+    private static final String PATH = "D:"+sep+"ImgBase"+sep;
     private JSONObject result = new JSONObject();
     private JSONArray resultList = new JSONArray();
 
-    ImageReptile(){
+    public ImageReptile(){
         result.put("resultList",resultList);
         result.put("total","0");
         result.put("position","0");
         result.put("number", "0");
         result.put("batch", "0");
         result.put("keyword", "NO keyword");
-
     }
-    public static void  main(String...args){
+    //æµ‹è¯•ä»£ç 
+    public static void  main(String... args){
         ImageReptile ima = new ImageReptile();
         JSONObject ASD = ima.OnlineSearch("fate","20","1");
+        ima.DownloadFullImage("63622.jpg");
     }
-    //ËÑË÷¹¦ÄÜ
-    //batchÎ´ÊµÏÖ
+    //æœç´¢åŠŸèƒ½
+    //batchæœªå®ç°
     public JSONObject OnlineSearch(String keyword,String num,String batch){
         String search =  searchURL.replace("%%",keyword);
         try{
-            //»ñÈ¡htmlÎÄ±¾ÄÚÈİ
+            //è·å–htmlæ–‡æœ¬å†…å®¹
             String document = this.getHtml(search);
             result.put("keyword",keyword);
-            //»ñÈ¡imgSrc
+            //è·å–imgSrc
             List<String> imgSrc = this.getImage(document);
-            //ÏÂÔØĞ¡Í¼
+            //ä¸‹è½½å°å›¾
             this.Download(imgSrc,num);
-            //ÏÂÔØ´óÍ¼
-            //this.DownloadFullImage(downloadURL,imgSrc.get(0));
+
 
         }catch(Exception e){
             System.out.println("Error");
@@ -64,7 +63,7 @@ public class ImageReptile {
         System.out.println(result);
         return result;
     }
-    //»ñÈ¡HTMLÄÚÈİ
+    //è·å–HTMLå†…å®¹
     private String getHtml(String url)throws Exception{
         URL url1=new URL(url);
         URLConnection connection=url1.openConnection();
@@ -72,6 +71,7 @@ public class ImageReptile {
         InputStream in=connection.getInputStream();
         InputStreamReader isr=new InputStreamReader(in);
         BufferedReader br=new BufferedReader(isr);
+
         String line;
         StringBuffer sb=new StringBuffer();
         while((line=br.readLine())!=null){
@@ -84,7 +84,7 @@ public class ImageReptile {
         return sb.toString();
     }
 
-    //»ñÈ¡IMG±êÇ©ÄÚÈİ
+    //è·å–IMGæ ‡ç­¾å†…å®¹
     private List<String> getImage(String html){
         Matcher matcher=Pattern.compile(IMGURL).matcher(html);
         List<String>listimgurl=new ArrayList<String>();
@@ -97,7 +97,7 @@ public class ImageReptile {
         return listimgSrc;
     }
 
-    //»ñÈ¡ImageSrcµØÖ·
+    //è·å–ImageSrcåœ°å€
     private List<String> getImageSrc(List<String> listimageurl) {
         List<String> listImage = new ArrayList<String>();
         for (String image : listimageurl) {
@@ -117,16 +117,34 @@ public class ImageReptile {
         }
         return listImageSrc;
     }
-    //ÏÂÔØÍ¼Æ¬
+
+    /**
+     Method: onlineSearch
+     è¯·æ±‚å‚æ•°ï¼šString:Imageï¼Œæœªå®ç°ã€String batch (è¯·æ±‚è¿”å›å›¾ç‰‡çš„æ‰¹æ¬¡) , ä»¥åŠHttprequestï¼ŒHttpsessionã€‘
+     è¿”å›ç±»å‹ï¼šJSONObject:result (ä¸è¿”å›Listæ˜¯å› ä¸ºè¿™æ¬¡è¿”å›çš„æ ¼å¼æ²¡æœ‰å¯¹åº”çš„å®ä½“ç±»)
+     resultå†…å®¹ï¼š
+     JSONArray: resultlist
+         resultlistå†…å®¹ï¼šMap<String,String>
+             Mapå†…å®¹ï¼š
+                 status: çŠ¶æ€ 0ä»£è¡¨æˆåŠŸ -1ä»£è¡¨å¤±è´¥
+                 relative path:ç›¸å¯¹è·¯å¾„
+                 real path:å›¾ç‰‡åœ¨æœåŠ¡å™¨çš„ç»å¯¹è·¯å¾„
+                 size:å›¾ç‰‡æ–‡ä»¶çš„å¤§å°
+     String:total å›¾ç‰‡æ€»æ•°
+     String:position å½“å‰è¿”å›çš„ç¬¬ä¸€å¼ å›¾ç‰‡åœ¨æ€»åºåˆ—é‡Œçš„ä½ç½®
+     String:number å½“å‰è¿”å›å›¾ç‰‡çš„æ•°é‡ï¼ˆè¿™ä¸ªå‚æ•°ä¹Ÿç”¨äºå‰ç«¯çš„è¯·æ±‚ï¼‰
+     String:batch  å½“å‰è¿”å›å›¾ç‰‡çš„æ‰¹æ¬¡ï¼ˆè¿™ä¸ªå‚æ•°ä¹Ÿç”¨äºå‰ç«¯çš„è¯·æ±‚ï¼‰
+     keywordï¼šåœ¨çº¿æœç´¢å›¾ç‰‡èµ„æºæ‰€ç”¨çš„å…³é”®è¯
+     **/
     private void Download(List<String> listImgSrc,String num){
         Map<String, String> uploadImageMap  =  new HashMap<>();
         int number = Integer.parseInt(num);
         try {
-            //¿ªÊ¼Ê±¼ä
+            //å¼€å§‹æ—¶é—´
             Date beginDate = new Date();
             for (int i=0; i < number;i++) {
-                //¿ªÊ¼Ê±¼ä
-                String url = listImgSrc.get(i);                                           //ÍøÒ³Â·¾¶
+                //å¼€å§‹æ—¶é—´
+                String url = listImgSrc.get(i);                                           //ç½‘é¡µè·¯å¾„
                 Date beginDate2 = new Date();
                 String imageName = Getnum(url);
                 URL urll = new URL(url);
@@ -137,19 +155,19 @@ public class ImageReptile {
                 FileOutputStream fo = new FileOutputStream(new File(PATH+imageName+".jpg"));
                 byte[] buf = new byte[1024];
                 int length = 0;
-                System.out.println("¿ªÊ¼ÏÂÔØ:" + url);
+                System.out.println("å¼€å§‹ä¸‹è½½:" + url);
                 while ((length = in.read(buf, 0, buf.length)) != -1) {
                     fo.write(buf, 0, length);
                 }
                 in.close();
                 fo.close();
-                System.out.println(imageName + "ÏÂÔØÍê³É");
-                //½áÊøÊ±¼ä
+                System.out.println(imageName + "ä¸‹è½½å®Œæˆ");
+                //ç»“æŸæ—¶é—´
                 Date overdate2 = new Date();
                 double time = overdate2.getTime() - beginDate2.getTime();
-                System.out.println("ºÄÊ±£º" + time / 1000 + "s");
+                System.out.println("è€—æ—¶ï¼š" + time / 1000 + "s");
                 uploadImageMap.put("status","0");
-                uploadImageMap.put("result","ÉÏ´«³É¹¦");
+                uploadImageMap.put("result","ä¸Šä¼ æˆåŠŸ");
                 uploadImageMap.put("url","Image"+sep+imageName+".jpg");
                 uploadImageMap.put("realPath",PATH+imageName+".jpg");
                 uploadImageMap.put("picsize", Long.toString(file.length()));
@@ -158,11 +176,11 @@ public class ImageReptile {
             }
             Date overdate = new Date();
             double time = overdate.getTime() - beginDate.getTime();
-            System.out.println("×ÜºÄÊ±£º" + time / 1000 + "s");
+            System.out.println("æ€»è€—æ—¶ï¼š" + time / 1000 + "s");
         } catch (Exception e) {
             e.printStackTrace();
             uploadImageMap.put("status","-1");
-            uploadImageMap.put("results","ÉÏ´«Ê§°Ü");
+            uploadImageMap.put("results","ä¸Šä¼ å¤±è´¥");
             resultList.add(uploadImageMap);
         }
         this.result.put("resultList",resultList);
@@ -173,51 +191,36 @@ public class ImageReptile {
         this.result.put("batch","0");
     }
 
-    //µÃµ½Í¼Æ¬ÄÚ²¿±àºÅ
+    //å¾—åˆ°å›¾ç‰‡å†…éƒ¨ç¼–å·
     private String Getnum(String str){
         String regEx="[^0-9]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
-        System.out.println( m.replaceAll("").trim());
         return m.replaceAll("").trim();
     }
 
 
+
 /**
- Method: onlineSearch
- ÇëÇó²ÎÊı£ºString keyword£¨ÔÚÏßËÑË÷Í¼Æ¬×ÊÔ´ËùÓÃµÄ¹Ø¼ü´Ê£©£¬String number£¨ÇëÇó·µ»ØÍ¼Æ¬µÄÊıÁ¿£©£¬Î´ÊµÏÖ¡¾String batch (ÇëÇó·µ»ØÍ¼Æ¬µÄÅú´Î) , ÒÔ¼°Httprequest£¬Httpsession¡¿
- ·µ»ØÀàĞÍ£ºJSONObject:result (²»·µ»ØListÊÇÒòÎªÕâ´Î·µ»ØµÄ¸ñÊ½Ã»ÓĞ¶ÔÓ¦µÄÊµÌåÀà)
- resultÄÚÈİ£º
- JSONArray: resultlist
-             resultlistÄÚÈİ£ºMap<String,String>
-             MapÄÚÈİ£º
-                url:ËõÂÔÍ¼»º´æÔÚ·şÎñÆ÷µÄÇëÇóµØÖ·
-                origurl:Ô­Í¼µØÖ·
-                path:Í¼Æ¬ÔÚ·şÎñÆ÷µÄÕæÊµÂ·¾¶
-                size:Í¼Æ¬ÎÄ¼şµÄ´óĞ¡
- String:total Í¼Æ¬×ÜÊı
- String:position µ±Ç°·µ»ØµÄµÚÒ»ÕÅÍ¼Æ¬ÔÚ×ÜĞòÁĞÀïµÄÎ»ÖÃ
- String:number µ±Ç°·µ»ØÍ¼Æ¬µÄÊıÁ¿£¨Õâ¸ö²ÎÊıÒ²ÓÃÓÚÇ°¶ËµÄÇëÇó£©
- String:batch  µ±Ç°·µ»ØÍ¼Æ¬µÄÅú´Î£¨Õâ¸ö²ÎÊıÒ²ÓÃÓÚÇ°¶ËµÄÇëÇó£©
- keyword£ºÔÚÏßËÑË÷Í¼Æ¬×ÊÔ´ËùÓÃµÄ¹Ø¼ü´Ê
- **/
-/**
- Method: DownloadFullImage£¨
- ÇëÇó²ÎÊı£ºString origurl(Ô­Í¼µØÖ·)  , ¡¾ÒÔ¼°Httprequest£¬Httpsession¡¿Î´ÊµÏÖ
- ·µ»ØÀàĞÍ£ºMap<String,String>
- MapÄÚÈİ£º
-     url:ËõÂÔÍ¼»º´æÔÚ·şÎñÆ÷µÄÇëÇóµØÖ· µ÷ÓÃuploadreslover.uploadImgByStreamµÃµ½
-     origurl:Ô­Í¼µØÖ·
-     path:Í¼Æ¬ÔÚ·şÎñÆ÷µÄÕæÊµÂ·¾¶ µ÷ÓÃuploadreslover.uploadImgByStreamµÃµ½
-     size:Í¼Æ¬ÎÄ¼şµÄ´óĞ¡
+ Method: DownloadFullImageï¼ˆ
+ è¯·æ±‚å‚æ•°ï¼šString origurl(åŸå›¾åœ°å€)  , ã€ä»¥åŠHttprequestï¼ŒHttpsessionã€‘æœªå®ç°
+ è¿”å›ç±»å‹ï¼šMap<String,String>
+ Mapå†…å®¹ï¼š
+     relativePath:ç›¸å¯¹è·¯å¾„
+     originalName:åŸå›¾åå­—
+     path:å›¾ç‰‡åœ¨æœåŠ¡å™¨çš„çœŸå®è·¯å¾„
+     status:0è¡¨ç¤ºæˆåŠŸ -1è¡¨ç¤ºå¤±è´¥
+     result:ä¸Šä¼ ç»“æœ
+     picsize:å›¾ç‰‡å¤§å°
  **/
     public Map<String,String> DownloadFullImage(String ImageSrc){
         Map<String, String> uploadImageMap  =  new HashMap<>();
         try {
-            //¿ªÊ¼Ê±¼ä
+            //å¼€å§‹æ—¶é—´
+            File file ;
             String imageName = Getnum(ImageSrc);
             String url = downloadURL.replace("%%",imageName);
-           //´óÍ¼ÍøÒ³Â·¾¶
+           //å¤§å›¾ç½‘é¡µè·¯å¾„
             URL urll = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) urll.openConnection();
             connection.setRequestProperty("User-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
@@ -226,23 +229,20 @@ public class ImageReptile {
                 URL url2 = new URL(ur2);
                 HttpURLConnection connection2 = (HttpURLConnection) url2.openConnection();
                 connection2.setRequestProperty("User-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-                InputStream in = connection.getInputStream();
-                File file = new File(PATH+imageName+".png");
+                InputStream in = connection2.getInputStream();
+                file = new File(PATH+"Full"+imageName+".png");
                 FileOutputStream fo = new FileOutputStream(file);
                 byte[] buf = new byte[1024];
                 int length = 0;
-                System.out.println("¿ªÊ¼ÏÂÔØ:" + ur2);
                 while ((length = in.read(buf, 0, buf.length)) != -1) {
                     fo.write(buf, 0, length);
                 }
                 in.close();
                 fo.close();
-                uploadImageMap.put("picsize", Long.toString(file.length()));
-                uploadImageMap.put("originalName",file.getName());
-                //½áÊøÊ±¼ä
+                System.out.println("successful png");
             }else {
                 InputStream in = connection.getInputStream();
-                File file = new File(PATH+imageName+".png");
+                file = new File(PATH+"Full"+imageName+".jpg");
                 FileOutputStream fo = new FileOutputStream(file);
                 byte[] buf = new byte[1024];
                 int length = 0;
@@ -251,16 +251,18 @@ public class ImageReptile {
                 }
                 in.close();
                 fo.close();
-                uploadImageMap.put("picsize", Long.toString(file.length()));
-                uploadImageMap.put("originalName",file.getName());
+                System.out.println("successful jpg");
             }
             uploadImageMap.put("status","0");
-            uploadImageMap.put("result","ÉÏ´«³É¹¦");
-            uploadImageMap.put("url","Image"+sep+imageName+".jpg");
-            uploadImageMap.put("realPath",PATH+imageName+".jpg");
+            uploadImageMap.put("result","ä¸Šä¼ æˆåŠŸ");
+            uploadImageMap.put("relativePath","Image"+sep+file.getName());
+            uploadImageMap.put("realPath",PATH+file.getName());
+            uploadImageMap.put("picsize", Long.toString(file.length()));
+            uploadImageMap.put("originalName",file.getName());
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ÏÂÔØÊ§°Ü");
+            uploadImageMap.put("status","-1");
+            uploadImageMap.put("result","ä¸Šä¼ å¤±è´¥");
         }
         return uploadImageMap;
     }
