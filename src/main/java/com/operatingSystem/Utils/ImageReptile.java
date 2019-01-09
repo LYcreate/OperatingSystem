@@ -273,9 +273,8 @@
 //}
 package com.operatingSystem.Utils;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -457,8 +456,8 @@ public class ImageReptile {
             resultList.add(uploadImageMap);
         }
         this.result.put("resultList",resultList);
-        this.result.getInt("number");
-        this.result.put("total",number+result.getInt("total")+"");
+        this.result.getIntValue("number");
+        this.result.put("total",number+result.getIntValue("total")+"");
         this.result.put("position","1");
         this.result.put("number",num);
         this.result.put("batch","0");
