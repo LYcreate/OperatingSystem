@@ -26,6 +26,9 @@
         select * from picture
     </select>
 
+    <select id="searchPicturesByKeyword" resultMap="pictureResultMap">
+        SELECT * FROM picture WHERE picturename LIKE CONCAT(CONCAT('%', #{keyword}), '%');
+    </select>
     <!--//insert//-->
     <insert id="insertOnePicture" parameterType="com.operatingSystem.model.Picture"
             keyProperty="id" keyColumn="id">
@@ -37,5 +40,8 @@
     <delete id="deletePictureById" parameterType="String">
        delete from picture where id=#{id}
     </delete>
+
+
+
 
 </mapper>

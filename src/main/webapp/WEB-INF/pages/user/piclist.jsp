@@ -9,20 +9,30 @@
 </fieldset>
 <div class="main-content">
     <div>
+
         <table id="allpictures" class="layui-table" v-cloak style="table-layout:fixed;">
             <colgroup>
                 <col width="5%">
-                <col width="5%">
-                <col width="30%">
+                <col width="15%">
+                <col width="25%">
                 <col width="15%">
                 <col width="15%">
                 <col width="20%">
             </colgroup>
             <thead>
             <tr>
+                <th colspan="1" style="text-align:center">操作</th>
+                <td colspan="4"><input type="text" placeholder="请输入您想要查询的图片信息" class="form-control" v-model="keyword"/></td>
+                <td colspan="1" style="text-align:center">
+                    <button class="btn btn-success" v-on:click="find" type="button">
+                        查询
+                    </button>
+                </td>
+            </tr>
+            <tr>
                 <th>序号</th>
                 <th>标题</th>
-                <th>活动链接</th>
+                <th>图片路径</th>
                 <th>投稿日期</th>
                 <th>截止时间</th>
                 <th>有关操作</th>
@@ -30,7 +40,7 @@
             </thead>
             <tbody>
             <tr v-for="picture in nowpictures">
-                <td>{{$index+1}}</td>
+                <td>{{$index+1+pagesize*(page-1)}}</td>
                 <td>{{picture.picturename}}</td>
                 <td style="width:100px;overflow:hidden;white-space:nowrap;word-break:keep-all;">{{picture.url}}</td>
                 <td>{{picture.subDate}}</td>
@@ -46,12 +56,12 @@
                                 class="layui-icon"></i>删除
                         </button>
                     </div>
-                    <div class="layui-btn-group">
-                        <%--<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>--%>
-                        <button class="layui-btn  layui-btn-normal" v-on:click="edit(picture)">
-                            <i class="layui-icon"></i>编辑
-                        </button>
-                    </div>
+                    <%--<div class="layui-btn-group">--%>
+                        <%--&lt;%&ndash;<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>&ndash;%&gt;--%>
+                        <%--<button class="layui-btn  layui-btn-normal" v-on:click="edit(picture)">--%>
+                            <%--<i class="layui-icon"></i>编辑--%>
+                        <%--</button>--%>
+                    <%--</div>--%>
                 </td>
             </tr>
             </tbody>
@@ -104,9 +114,10 @@
                 temp:{},
                 nowpictures: [],
                 page: 1,
-                pagesize: 2,
+                pagesize: 5,
                 maxtCount: 0,
                 pages: 0,
+                keyword:'',
             },
             created:function(){
                 this.load();
@@ -118,25 +129,26 @@
                         url: "/screenos/getallpictrues",
                         dataType: 'json',
                         success: function (result) {
-                            console.log(result);
-                            datas=[];
-                            var pics=result;
-                            for(i=0;i<pics.length;i++)
-                            {
-                                pics[i].subDate=getLocalTime(pics[i].subDate/1000);
-                                pics[i].endDate=getLocalTime(pics[i].endDate/1000);
-                            }
-                            app.pictures=pics;
-                            app.maxtCount = pics.length;
-                            if(app.maxtCount < app.pagesize)
-                                app.pagesize = app.maxtCount;
-                            app.pages = app.maxtCount / app.pagesize;
-                            pageini();
-                            for (i = 0; i < app.pagesize; i++) {
-                                app.temp= app.pictures[i];
-                                datas.push(app.temp);
-                            }
-                            app.nowpictures = datas;
+                            pageini(result);
+                            // console.log(result);
+                            // datas=[];
+                            // var pics=result;
+                            // for(i=0;i<pics.length;i++)
+                            // {
+                            //     pics[i].subDate=getLocalTime(pics[i].subDate/1000);
+                            //     pics[i].endDate=getLocalTime(pics[i].endDate/1000);
+                            // }
+                            // app.pictures=pics;
+                            // app.maxtCount = pics.length;
+                            // if(app.maxtCount < app.pagesize)
+                            //     app.pagesize = app.maxtCount;
+                            // app.pages = app.maxtCount / app.pagesize;
+                            // pageini(result);
+                            // for (i = 0; i < app.pagesize; i++) {
+                            //     app.temp= app.pictures[i];
+                            //     datas.push(app.temp);
+                            // }
+                            // app.nowpictures = datas;
                         }
                     });
                 },
@@ -147,6 +159,29 @@
                 },
                 edit:function(picture){
                     window.location.href = "/screenos/editpicture?id="+picture.id;
+                },
+                find:function(){
+                    layer.load(1);
+                    $.ajax({
+                        type: 'POST',
+                        url: "/screenos/keysearch",
+                        data: {'keyword':app.keyword},
+                        dataType: 'json',
+                        success: function (result) {
+                            console.log('result');
+                            console.log(result);
+                            layer.closeAll('loading')
+                            if (result.status == 0) {
+                                // layer.msg("查询完毕", {icon: 6});
+                                // app.nowpictures=result.result;
+                                // app.pictures=result.result;
+                                app.page=1;
+                                pageini(result.result);
+                            } else {
+                                layer.alert("查询出错", {icon: 5});
+                            }
+                        }
+                    });
                 },
                 del:function (picture) {
                     layer.confirm('确定删除？', {
@@ -192,7 +227,20 @@
         function load(){
             app.load();
         }
-        function pageini(){
+        function pageini(result){
+            console.log(result);
+            datas=[];
+            var pics=result;
+            for(i=0;i<pics.length;i++)
+            {
+                pics[i].subDate=getLocalTime(pics[i].subDate/1000);
+                pics[i].endDate=getLocalTime(pics[i].endDate/1000);
+            }
+            app.pictures=pics;
+            app.maxtCount = pics.length;
+            if(app.maxtCount < app.pagesize)
+                app.pagesize = app.maxtCount;
+            app.pages = app.maxtCount / app.pagesize;
             laypage({
                 cont: 'page'
                 ,pages: app.pages//总页数
@@ -210,6 +258,12 @@
                     layer.closeAll('loading');
                 }
             });
+            for (i = 0; i < app.pagesize; i++) {
+                app.temp= app.pictures[i];
+                datas.push(app.temp);
+            }
+            app.nowpictures = datas;
+            console.log(app.nowpictures);
         }
     });
 

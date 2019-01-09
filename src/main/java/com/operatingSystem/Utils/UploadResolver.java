@@ -1,8 +1,7 @@
 package com.operatingSystem.Utils;
 
 import com.operatingSystem.model.User;
-import com.operatingSystem.Utils.NetResult;
-import org.springframework.beans.factory.annotation.Value;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,13 +106,37 @@ public class UploadResolver {
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
-                String realpath = "/imgs/" + id + "/"+file.getOriginalFilename();
+                String url = "/imgs/" + id + "/"+file.getOriginalFilename();//访问路径
                 uploadImageMap.put("status","0");
                 uploadImageMap.put("result","上传成功");
-                uploadImageMap.put("url",realpath);
-                uploadImageMap.put("realPath",directoryPath);
-                uploadImageMap.put("picsize", Long.toString(file.getSize()));
-                uploadImageMap.put("originalName",file.getOriginalFilename());
+                if(file.getSize()>500000) {
+                    //String rate = Float.toString(1000000/file.getSize()).substring(0,2);
+                    double rate = 500000.0/file.getSize();
+                    System.out.println(rate);
+                    System.out.println("图片太大正在优化");
+                    BigDecimal b   =   new   BigDecimal(rate);
+                    float   f1   =   b.setScale(1,   BigDecimal.ROUND_HALF_UP).floatValue();
+                    System.out.println(f1);
+                    String resizedDirectorypath = path + File.separator + "resized" + file.getOriginalFilename();
+                    FileOutputStream out2 = new FileOutputStream(resizedDirectorypath);
+                    Thumbnails.of(directoryPath).size(750, 425).outputQuality(1f).toOutputStream(out2);
+//                    Thumbnails.of(directoryPath).size(750, 425).outputQuality(f1).toOutputStream(out2);
+                    System.out.println(resizedDirectorypath);
+                    String resizedurl = "/imgs/" + id + "/resized" + file.getOriginalFilename();
+                    uploadImageMap.put("url",resizedurl);
+                    uploadImageMap.put("realPath",resizedDirectorypath);
+                    try {
+                        uploadImageMap.put("picsize", Long.toString(out2.getChannel().size()));
+                    }catch (Exception e){
+                        uploadImageMap.put("picsize", "0");
+                    }
+                    uploadImageMap.put("originalName","resized"+file.getOriginalFilename());
+                }else{
+                    uploadImageMap.put("url",url);
+                    uploadImageMap.put("realPath",directoryPath);
+                    uploadImageMap.put("picsize", Long.toString(file.getSize()));
+                    uploadImageMap.put("originalName",file.getOriginalFilename());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 uploadImageMap.put("status","-1");

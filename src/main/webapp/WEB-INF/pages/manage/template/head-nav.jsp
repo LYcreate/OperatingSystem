@@ -53,5 +53,8 @@
                     <dd><a v-on:click="logout">登出</a></dd>
                 </dl>
             </li>
+            <li class="layui-nav-item">
+                <a href="/screenos/searchpic">搜索在线图片</a>
+            </li>
         </ul>
     </div>

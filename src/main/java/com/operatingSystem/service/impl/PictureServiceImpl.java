@@ -39,4 +39,9 @@ public class PictureServiceImpl implements PictureService {
     public int deletePictureById(String id) throws Exception{
         return pictureMapper.deletePictureById(id);
     }
+
+    @Override
+    public List<Picture> searchPicturesByKeyword(String keyword)throws Exception {
+        return pictureMapper.searchPicturesByKeyword(keyword);
+    }
 }

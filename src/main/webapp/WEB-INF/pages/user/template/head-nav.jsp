@@ -42,12 +42,15 @@
         </li>
         <li class="layui-nav-item" style="float: right">
             <a href="javascript:;">
-                <div th:text="${session.userName}"></div>
+                <div>${session.userName}</div>
             </a>
             <dl class="layui-nav-child">
                 <dd><a href="/screenos/screen">浏览壁纸界面</a></dd>
                 <dd><a v-on:click="logout">登出</a></dd>
             </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/screenos/searchpic">搜索在线图片</a>
         </li>
     </ul>
 </div>

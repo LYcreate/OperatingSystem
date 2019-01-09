@@ -70,7 +70,7 @@ public class PageController {
         return "/user/piclist";
     }
 
-    @RequestMapping("/user/searchpic")
+    @RequestMapping("/searchpic")
     public String goUserSearch(){
 
         return "/user/searchpic";

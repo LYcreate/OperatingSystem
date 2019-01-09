@@ -137,6 +137,15 @@ public class PictureController {
         return result;
     }
 
+    @RequestMapping(value = "/keysearch")
+    public @ResponseBody NetResult keySearch(
+            @RequestParam String keyword) throws Exception{
+        NetResult result = new NetResult();
+        result.status = 0;
+        result.result = pictureService.searchPicturesByKeyword(keyword);
+        return result;
+    }
+
     @RequestMapping(value = "/getorgipictrues")
     public @ResponseBody NetResult getOrgiPictrues(
             String orginalfilename) {
