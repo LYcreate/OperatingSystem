@@ -12,11 +12,11 @@
                     <col width="5%">
                     <col width="10%">
                     <col width="10%">
-                    <col width="15%">
+                    <col width="5%">
                     <col width="15%">
                     <col width="20%">
                     <col width="15%">
-                    <col width="10%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -42,7 +42,13 @@
                     <td>
                         <div class="layui-btn-group">
                             <button class="layui-btn  layui-btn-normal" v-on:click="del(user)"><i
-                                    class="layui-icon"></i>删除
+                                    class="layui-icon">删除</i>
+                            </button>
+                        </div>
+                        <div class="layui-btn-group">
+                            <%--<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>--%>
+                            <button class="layui-btn  layui-btn-normal" v-on:click="edit(user)">
+                                <i class="layui-icon">编辑</i>
                             </button>
                         </div>
                     </td>
@@ -85,6 +91,9 @@
                             app.users = users;
                         }
                     });
+                },
+                edit:function(user){
+                    window.location.href = "/screenos/manage/edituser?id="+user.id;
                 },
                 del:function (user) {
                     layer.confirm('确定删除？', {

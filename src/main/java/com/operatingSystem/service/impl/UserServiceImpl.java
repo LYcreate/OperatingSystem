@@ -17,10 +17,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
-    public User getUserByIdAndPassword(User user) throws Exception{
-        return userMapper.getUserByIdAndPassword(user);
-    }
+//    @Override
+//    public User getUserByIdAndPassword(User user) throws Exception{
+//        return userMapper.getUserByIdAndPassword(user);
+//    }
 
     @Override
     public User getUserByUsername(String username) throws Exception{
@@ -43,10 +43,24 @@ public class UserServiceImpl implements UserService {
         return userMapper.deleteUserById(id);
     }
 
+    @Override
     public int updateUserSessionId(User user){
         return userMapper.updateUserSessionId(user);
     }
+
+    @Override
     public User getUserByUid(String uid){
         return userMapper.getUserByUid(uid);
     }
+
+    @Override
+    public User getUserById(String id){
+        return userMapper.getUserById(id);
+    }
+
+    @Override
+    public int updateOneUser(User user){
+       return  userMapper.updateOneUser(user);
+    }
+
 }

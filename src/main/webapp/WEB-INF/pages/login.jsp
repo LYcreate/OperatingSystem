@@ -21,9 +21,6 @@
     <script src="<%=basePath%>/js/sockjs.min.js"></script>
 </head>
 <body>
-<div layout:fragment="content">
-    <div th:replace="frame :: left-nav"></div>
-</div>
 <div class="container">
     <div class="main-content  table-responsive" v-cloak style="text-align: center;vertical-align: middle">
         <fieldset class="layui-elem-field layui-field-title loginForm" style="margin:10px auto;bamargin-top:40px;border:1px solid #e2e2e2;padding:20px;max-width:480px;display:inline-block;background: #fff">
@@ -62,29 +59,6 @@
             </div>
         </fieldset>
     </div>
-</div>
-
-<!--<table class="layui-table table-striped table-bordered table-hover" style="table-layout:fixed">-->
-<!--<tr>-->
-<!--<th colspan="1" style="text-align:center">用户账号</th>-->
-<!--<td colspan="5">-->
-<!--<input type="text" class="layui-input" placeholder="请输入学号/工号" v-model="word.title"/>-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<th colspan="1" style="text-align:center">用户密码</th>-->
-<!--<td colspan="5">-->
-<!--<textarea placeholder="请输入心情内容" class="layui-textarea" v-model="word.message"></textarea>-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td colspan="6">-->
-<!--<input type="password" class="layui-input" placeholder="你大致想要说啥？" v-model="word.title"/>-->
-<!--</td>-->
-<!--</tr>-->
-<!--</table>-->
-</div>
-</div>
 </div>
 <script>
     $(document).ready(function () {

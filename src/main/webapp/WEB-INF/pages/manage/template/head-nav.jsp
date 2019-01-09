@@ -31,9 +31,9 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">用户管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="/screenos/manage/adduser">用户列表</a></dd>
+                    <dd><a href="/screenos/manage/userlist">用户列表</a></dd>
                     <dd><a href="/screenos/manage/userlist">设备列表</a></dd>
-                    <dd><a href="/screenos/manage/edituser">添加用户/设备</a></dd>
+                    <dd><a href="/screenos/manage/adduser">添加用户/设备</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
@@ -42,7 +42,6 @@
                     <dd><a href="/screenos/user/piclist">本地图片列表</a></dd>
                     <dd><a href="/screenos/user/searchpic">在线搜索图片</a></dd>
                     <dd><a href="/screenos/user/addpic">添加图片</a></dd>
-                    <dd><a href="/screenos/user/editpic">编辑图片</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item" style="float: right">

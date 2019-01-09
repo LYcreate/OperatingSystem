@@ -3,9 +3,9 @@
 <%@ include file="template/head-nav.jsp"%>
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
-    <legend>新建用户</legend>
+    <legend>编辑用户</legend>
 </fieldset>
-<div class="table-responsive" v-cloak style="margin-left: 50px;margin-right: 150px;">
+<div class="table-responsive main-content" v-cloak style="margin-left: 50px;margin-right: 150px;">
     <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label" style="text-align:center;vertical-align:middle;">姓名</label>
@@ -16,7 +16,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="text-align:center;vertical-align:middle;">密码</label>
             <div class="layui-input-inline">
-                <input type="text" v-model="user.password" required placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="password" v-model="user.password" required placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -77,14 +77,7 @@
             var app = new Vue({
                 el: '.main-content',
                 data: {
-                    user: {
-                        uid:"",
-                        username: "",
-                        password: "",
-                        userType: "",
-                        gender:"",
-                        part:"",
-                    }
+                    user: ${user}
                 },
                 methods: {
                     save: function () {
@@ -101,9 +94,9 @@
                         else if (app.user.username == "")
                             layer.alert("姓名不能为空", {icon: 5});
                         else {
-                            jQuery.ajax({
+                            $.ajax({
                                 type: 'POST',
-                                url: "/user/saveUser",
+                                url: "/screenos/user/editUser",
                                 data: app.user,
                                 dataType: 'json',
                                 success: function (json) {
@@ -119,7 +112,7 @@
                         }
                     },
                     logout: function () {
-                        jQuery.ajax({
+                        $.ajax({
                             type: 'POST',
                             url: "/user/logout",
                             data: {

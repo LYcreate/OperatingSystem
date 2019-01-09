@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/screenos/css/bootstrap.min.css">
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
-    <legend>活动列表</legend>
+    <legend>壁纸列表</legend>
 </fieldset>
 <div class="main-content">
     <div>
@@ -44,6 +44,12 @@
                     <div class="layui-btn-group">
                         <button class="layui-btn  layui-btn-normal" v-on:click="del(picture)"><i
                                 class="layui-icon"></i>删除
+                        </button>
+                    </div>
+                    <div class="layui-btn-group">
+                        <%--<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>--%>
+                        <button class="layui-btn  layui-btn-normal" v-on:click="edit(picture)">
+                            <i class="layui-icon"></i>编辑
                         </button>
                     </div>
                 </td>
@@ -138,6 +144,9 @@
                     app.picture=picture;
                     console.log(picture);
                     $("#pictureDetail").modal("show");
+                },
+                edit:function(picture){
+                    window.location.href = "/screenos/editpicture?id="+picture.id;
                 },
                 del:function (picture) {
                     layer.confirm('确定删除？', {

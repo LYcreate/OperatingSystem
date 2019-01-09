@@ -1,6 +1,15 @@
 package com.operatingSystem.controller;
 
+//import net.sf.json.JSONObject;
+//import com.alibaba.fastjson.JSONObject;
+import com.operatingSystem.model.Picture;
+import com.operatingSystem.model.User;
+import com.operatingSystem.service.PictureService;
+import com.operatingSystem.service.UserService;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -8,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PageController {
 
 
+    @Autowired
+    private PictureService pictureService;
+    @Autowired
+    private UserService userService;
     /*
      测试
             */
@@ -70,8 +83,16 @@ public class PageController {
     }
 
     @RequestMapping("/user/editpic")
-    public String goUserEditpic() {
+    public String goUserAddpic(Model model, String id) {
 
+        Picture pic = new Picture();
+        try {
+            pic = pictureService.getPictureById(id);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        model.addAttribute("picture", JSONObject.fromObject(pic));
+//        model.addAttribute("picture", JSONObject.toJSON(pic));
         return "/user/editpic";
     }
 
@@ -91,9 +112,19 @@ public class PageController {
         return "/manage/adduser";
     }
 
-    @RequestMapping("/manage/edituser")
-    public String goManageedituser(){
+    @RequestMapping(value = "/manage/edituser", method = RequestMethod.GET)
+    public String goManageedituser(String id,Model model) {
 
+        User user = new User();
+        try {
+            user = userService.getUserById(id);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+//        model.addAttribute("user", JSONObject.toJSON(user));
+//        System.out.println(JSONObject.toJSON(user));
+        model.addAttribute("user", JSONObject.fromObject(user));
+        System.out.println(JSONObject.fromObject(user));
         return "/manage/edituser";
     }
 }

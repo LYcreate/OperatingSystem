@@ -16,8 +16,12 @@
         <result column="login_date"  property="loginDate"></result>
     </resultMap>
 
-    <select id="getUserByIdAndPassword" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">
-        select * from user where id=#{id} and password=#{password}
+    <!--<select id="getUserByIdAndPassword" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">-->
+        <!--select * from user where id=#{id} and password=#{password}-->
+    <!--</select>-->
+
+    <select id="getUserById" parameterType="com.operatingSystem.model.User" resultMap="userResultMap">
+        select * from user where id=#{id}
     </select>
 
     <select id="getUserByUid" resultMap="userResultMap">
@@ -60,5 +64,18 @@
 
     <update id="updateUserSessionId" parameterType="com.operatingSystem.model.User">
         update user set session_id=#{sessionId}
+    </update>
+
+    <update id="updateOneUser" parameterType="com.operatingSystem.model.User">
+        update user
+        <set>
+            <if test="username != null">username = #{username}</if>
+            <if test="uid != null">, uid = #{uid}</if>
+            <if test="password != null">, password = #{password}</if>
+            <if test="userType != null">, user_type = #{userType}</if>
+            <if test="gender != null">, gender = #{gender}</if>
+            <if test="part != null">, part = #{part}</if>
+        </set>
+        WHERE id = #{id}
     </update>
 </mapper>

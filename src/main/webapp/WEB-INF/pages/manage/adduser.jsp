@@ -16,7 +16,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="text-align:center;vertical-align:middle;">密码</label>
             <div class="layui-input-inline">
-                <input type="text" v-model="user.password" required placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="password" v-model="user.password" required placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">

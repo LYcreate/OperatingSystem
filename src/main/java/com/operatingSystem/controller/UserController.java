@@ -18,19 +18,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/test",    method = RequestMethod.GET)
-    public @ResponseBody NetResult test() throws Exception{
-        System.out.println("imin");
-        User user = new User();
-        NetResult NetResult = new NetResult();
-        user.setId("1");
-        user.setPassword("admin");
-        User us = userService.getUserByIdAndPassword(user);
-        System.out.println(us.getUsername());
-        NetResult.status=1;
-        NetResult.result=us.getUsername();
-        return NetResult;
-    }
+//    @RequestMapping(value = "/test",    method = RequestMethod.GET)
+//    public @ResponseBody NetResult test() throws Exception{
+//        System.out.println("imin");
+//        User user = new User();
+//        NetResult NetResult = new NetResult();
+//        user.setId("1");
+//        user.setPassword("admin");
+//        User us = userService.getUserByIdAndPassword(user);
+//        System.out.println(us.getUsername());
+//        NetResult.status=1;
+//        NetResult.result=us.getUsername();
+//        return NetResult;
+//    }
 
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public @ResponseBody NetResult login(HttpServletRequest request) throws Exception{
@@ -94,7 +94,7 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "/user/saveUser",produces = {"text/html;charset=utf-8"})
+    @RequestMapping(value = "/user/saveUser")
     public @ResponseBody NetResult saveUser(
             @RequestParam String username,
             @RequestParam String uid,
@@ -103,16 +103,65 @@ public class UserController {
             @RequestParam String gender,
             @RequestParam String part) {
         User user = new User(uid, username, password,userType,part,gender);
+        NetResult result = new NetResult();
         try{
             userService.insertOneUser(user);
+            result.status = 0;
+            result.result = "保存成功";
+            System.out.println("SAVEUSER");
+            System.out.println(result.result);
         }catch (Exception e)
         {
             System.out.println(e);
+            result.status = 1;
+            result.result = "保存失败";
+            System.out.println("SAVEUSER");
+            System.out.println(result.result);
         }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/user/editUser")
+    public @ResponseBody NetResult editUser(
+            @RequestParam String id,
+            @RequestParam String username,
+            @RequestParam String uid,
+            @RequestParam String password,
+            @RequestParam String userType,
+            @RequestParam String gender,
+            @RequestParam String part) {
+        System.out.println("id:"+id);
+        User dbuser = new User(uid, username, password,userType,part,gender);
         NetResult result = new NetResult();
-        result.status = 0;
-        result.result = "上传成功";
-        System.out.println(result.result);
+        try {
+            dbuser = userService.getUserById(id);
+            dbuser.setGender(gender);
+            dbuser.setUserType(userType);
+            dbuser.setPart(part);
+            dbuser.setPassword(password);
+            dbuser.setUsername(username);
+            dbuser.setUid(uid);
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            System.out.println("dbuser查库失败");
+        }
+        try{
+            System.out.println("dbuserid:"+dbuser.getId());
+            userService.updateOneUser(dbuser);
+            result.status = 0;
+            result.result = "更新成功";
+            System.out.println("editUSER");
+            System.out.println(result.result);
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            result.status = 1;
+            result.result = "更新失败";
+            System.out.println("editUSER");
+            System.out.println(result.result);
+        }
         return result;
     }
 
