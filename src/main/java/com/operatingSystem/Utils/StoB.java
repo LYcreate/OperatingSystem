@@ -19,12 +19,21 @@ public class StoB {
     public int postion;
     public int time;
     public Object pictrue;
-
+    public String uid;
     public StoB() {
         isrefresh = 0;
     }
 
     public StoB(int isrefresh) {
         this.isrefresh = isrefresh;
+    }
+
+    public StoB(int isrefresh, int effectype, int postion, int time, Object pictrue, String uid) {
+        this.isrefresh = isrefresh;
+        this.effectype = effectype;
+        this.postion = postion;
+        this.time = time;
+        this.pictrue = pictrue;
+        this.uid = uid;
     }
 }

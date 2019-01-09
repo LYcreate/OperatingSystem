@@ -9,7 +9,7 @@ public class BtoS {
     public int postion;
     public int time;
     public Object pictrue;
-
+    public String uid;
     public BtoS() {
         isrefresh = 0;
     }

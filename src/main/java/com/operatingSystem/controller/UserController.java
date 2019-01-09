@@ -40,19 +40,19 @@ public class UserController {
         User user=userService.getUserByUid(uid);
         if (user==null){
             netResult.status=1;
-            netResult.result="Username dosen't exit!";
+            netResult.result="用户不存在!";
         }else {
             String password=request.getParameter("password");
             if (password.equals(user.getPassword())){
                 netResult.status=0;
-                netResult.result="Successfully login!";
+                netResult.result="成功登录!";
                 request.getSession().setAttribute(User.CURRENT_USER,user);
                 String sessionId=request.getSession().getId();
                 user.setSessionId(sessionId);
                 userService.updateUserSessionId(user);
             }else {
                 netResult.status=1;
-                netResult.result="Password error!";
+                netResult.result="密码错误!";
             }
         }
         return netResult;
