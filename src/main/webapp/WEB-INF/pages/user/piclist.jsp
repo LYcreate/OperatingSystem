@@ -56,12 +56,12 @@
                                 class="layui-icon"></i>删除
                         </button>
                     </div>
-                    <%--<div class="layui-btn-group">--%>
-                        <%--&lt;%&ndash;<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>&ndash;%&gt;--%>
-                        <%--<button class="layui-btn  layui-btn-normal" v-on:click="edit(picture)">--%>
-                            <%--<i class="layui-icon"></i>编辑--%>
-                        <%--</button>--%>
-                    <%--</div>--%>
+                    <div class="layui-btn-group">
+                        <%--<a role='button' class="btn btn-primary "  href="/screenos/edituser?uid={{user.uid}}"></a>--%>
+                        <button class="layui-btn  layui-btn-normal" v-on:click="add(picture)">
+                            <i class="layui-icon"></i>添加到屏幕
+                        </button>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -158,8 +158,8 @@
                     console.log(picture);
                     $("#pictureDetail").modal("show");
                 },
-                edit:function(picture){
-                    window.location.href = "/screenos/editpicture?id="+picture.id;
+                add:function(picture){
+                    window.location.href = "/screenos/user/controlpicture?id="+picture.id;
                 },
                 find:function(){
                     layer.load(1);

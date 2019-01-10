@@ -1,12 +1,9 @@
 package com.operatingSystem.controller;
 //import com.operatingSystem.Utils.ImageReptile;
-import com.operatingSystem.Utils.ImageReptile;
-import com.operatingSystem.Utils.NetResult;
-import com.operatingSystem.Utils.UrlReptile;
+import com.operatingSystem.Utils.*;
 import com.operatingSystem.model.Picture;
 import com.operatingSystem.model.User;
 import com.operatingSystem.service.PictureService;
-import com.operatingSystem.Utils.UploadResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -176,4 +173,71 @@ public class PictureController {
         result.result = "删除成功";
         return result;
     }
+
+    @RequestMapping(value = "/getbtos")
+    public @ResponseBody  NetResult getbtos(
+//            BtoS bs){
+            @RequestParam Integer isrefresh,
+            @RequestParam Integer effectype,
+            @RequestParam Integer position,
+            @RequestParam Integer time,
+//            @RequestParam Picture picture,
+            @RequestParam String picture,
+            @RequestParam String uid) {
+        BtoS bs = new BtoS();
+        bs.isrefresh=isrefresh;
+        bs.time=time;
+        bs.postion=position;
+        bs.effectype=effectype;
+        try {
+            bs.pictrue=pictureService.getPictureById(picture);
+        }catch (Exception e){
+            bs.pictrue=picture;
+        }
+//        bs.pictrue=picture;
+        bs.uid=uid;
+        System.out.println(bs.toString());
+        System.out.println(bs.uid);
+        System.out.println(bs.pictrue);
+        NetResult result = new NetResult();
+        result.status=0;
+        result.result=bs;
+        return result;
+    }
+//    isrefresh: 0
+//    effectype: 1
+//    position: 1
+//    time: 2
+//    pictrue: 09a6e0c1-c532-4e89-9611-5d87f961f8d6
+//    uid: 16124400
+//    @RequestMapping(value = "/getbtos")
+//    public @ResponseBody  NetResult getbtos(
+//            BtoS bs){
+////            @RequestParam Integer isrefresh,
+////            @RequestParam Integer effectype,
+////            @RequestParam Integer position,
+////            @RequestParam Integer time,
+////            @RequestParam Picture picture,
+//////            @RequestParam String picture,
+////            @RequestParam String uid) {
+////        BtoS bs = new BtoS();
+////        bs.isrefresh=isrefresh;
+////        bs.time=time;
+////        bs.postion=position;
+////        bs.effectype=effectype;
+//////        try {
+//////            bs.pictrue=pictureService.getPictureById(picture);
+//////        }catch (Exception e){
+//////            bs.pictrue=picture;
+//////        }
+////        bs.pictrue=picture;
+////        bs.uid=uid;
+//        System.out.println(bs.toString());
+//        System.out.println(bs.uid);
+//        System.out.println(bs.pictrue);
+//        NetResult result = new NetResult();
+//        result.status=0;
+//        result.result=bs;
+//        return result;
+//    }
 }

@@ -98,6 +98,27 @@ public class PageController {
         return "/user/editpic";
     }
 
+    @RequestMapping("/user/controlpicture")
+    public String goUserControlpic(Model model, String id) {
+
+        Picture pic = new Picture();
+        try {
+            pic = pictureService.getPictureById(id);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        model.addAttribute("picture", JSONObject.fromObject(pic));
+        System.out.println(pic.getPicturename());
+//        model.addAttribute("url", url);
+//        model.addAttribute("picture", JSONObject.toJSON(pic));
+        return "/user/controlpic";
+    }
+
+//    @RequestMapping("/user/controlpicture")
+//    public String goUserControlpic() {
+//
+//        return "/user/controlpic";
+//    }
     /*
      用户与设备部分
      权限：管理员
