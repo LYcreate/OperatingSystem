@@ -17,13 +17,18 @@ public class ImageReptile {
     private static final String downloadURL= "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-%%.jpg" ;
     private static final String downloadURL2= "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-%%.png" ;
     // 下载大图连接
-    private static final String searchURL = "https://alpha.wallhaven.cc/search?q=%%&categories=111&purity=100&sorting=relevance&order=desc&page=2";
+    private static final String searchURL = "https://alpha.wallhaven.cc/search?q=%%&categories=111&purity=100&sorting=relevance&order=desc&page=$$$";
     // 下载小图网站
     private static final String IMGURL = "<figure(.*?)><img(.*?)>" ;
     // 获取src大图路径的正则
     private static final String IMGSRC_HTML = "/(.*?)\\.html";
     // 获取src路径的正则
     private static final String IMGSRC_REG = "https:(.*?)\\.jpg";
+    // 获取总页数正则1
+    private static final String PAGE1 = "Page(.*?)</h2>";
+    // 获取总页数正则2
+    private static final String PAGE2 = "/(.*?)</";
+
     private static final String IMG = "<img(.*?)>";
     private static final String sep = File.separator;
     private static final String PATH = "D:"+sep+"ImgBase"+sep;
@@ -41,25 +46,39 @@ public class ImageReptile {
     }
     public static void  main(String...args){
         ImageReptile ima = new ImageReptile();
-        JSONObject ASD = ima.OnlineSearch("fate","20","1");
+        System.out.println(25/4);
+        JSONObject ASD = ima.OnlineSearch("fate","30","1");
     }
     //搜索功能
     //batch未实现
     public JSONObject OnlineSearch(String keyword,String num,String batch){
         String search =  searchURL.replace("%%",keyword);
-        try{
-            //获取html文本内容
-            String document = this.getHtml(search);
-            result.put("keyword",keyword);
-            //获取imgSrc
-            List<String> imgSrc = this.getImage(document);
-            //下载小图
-            this.Download(imgSrc,num);
-            //下载大图
-            //this.DownloadFullImage(downloadURL,imgSrc.get(0));
+        result.put("keyword",keyword);
+        int yushu = Integer.parseInt(num)%24;
+        int page;
+        if(yushu==0){
+            page = Integer.parseInt(num)/24;}
+        else
+            page = Integer.parseInt(num)/24+1;
+        for(int i = 0 ; i<page ;i++){
+            try{
+                String search2 = search.replace("$$$",i+1+"");
+                //获取html文本内容
+                String document = this.getHtml(search2);
+                getPage(document);
+                //获取imgSrc
+                List<String> imgSrc = this.getImage(document);
+                //下载小图
+                if(i<page-1)
+                    this.Download(imgSrc, "24",i+1+"");
+                else
+                    this.Download(imgSrc,yushu+"",i+1+"");
+                //下载大图
+                //this.DownloadFullImage(downloadURL,imgSrc.get(0));
 
-        }catch(Exception e){
-            System.out.println("Error");
+            }catch(Exception e){
+                System.out.println("Error");
+            }
         }
         System.out.println(result);
         return result;
@@ -83,7 +102,6 @@ public class ImageReptile {
         in.close();
         return sb.toString();
     }
-
     //获取IMG标签内容
     private List<String> getImage(String html){
         Matcher matcher=Pattern.compile(IMGURL).matcher(html);
@@ -91,12 +109,9 @@ public class ImageReptile {
         while (matcher.find()){
             listimgurl.add(matcher.group());
         }
-        System.out.println(listimgurl);
-        System.out.println(listimgurl.size());
         List<String> listimgSrc = this.getImageSrc(listimgurl);
         return listimgSrc;
     }
-
     //获取ImageSrc地址
     private List<String> getImageSrc(List<String> listimageurl) {
         List<String> listImage = new ArrayList<String>();
@@ -106,7 +121,6 @@ public class ImageReptile {
                 listImage.add(matcher.group());
             }
         }
-        System.out.println(listImage);
         List<String> listImageSrc = new ArrayList<String>();
         for (String image : listImage) {
             Matcher matcher = Pattern.compile(IMGSRC_REG).matcher(image);
@@ -115,10 +129,27 @@ public class ImageReptile {
             }
 
         }
+        System.out.println(listImageSrc);
         return listImageSrc;
     }
+    //总页数
+    private void getPage(String html){
+        String str2;
+        Matcher matcher=Pattern.compile(PAGE1).matcher(html);
+        List<String>listimgurl=new ArrayList<String>();
+        while (matcher.find()){
+            listimgurl.add(matcher.group());
+        }
+        str2 = listimgurl.get(0);
+        matcher=Pattern.compile(PAGE2).matcher(str2);
+        listimgurl=new ArrayList<String>();
+        while (matcher.find()){
+            listimgurl.add(matcher.group());
+        }
+        result.put("totalPage",Getnum(listimgurl.get(0)));
+    }
     //下载图片
-    private void Download(List<String> listImgSrc,String num){
+    private void Download(List<String> listImgSrc,String num,String page){
         Map<String, String> uploadImageMap  =  new HashMap<>();
         int number = Integer.parseInt(num);
         try {
@@ -155,6 +186,7 @@ public class ImageReptile {
                 uploadImageMap.put("realPath",PATH+imageName+".jpg");
                 uploadImageMap.put("picsize", Long.toString(file.length()));
                 uploadImageMap.put("originalName",file.getName());
+                uploadImageMap.put("page",page);
                 resultList.add(uploadImageMap);
             }
             Date overdate = new Date();
@@ -171,7 +203,6 @@ public class ImageReptile {
         this.result.put("total",number+result.getInt("total")+"");
         this.result.put("position","1");
         this.result.put("number",num);
-        this.result.put("batch","0");
     }
 
     //得到图片内部编号
@@ -248,7 +279,7 @@ public class ImageReptile {
                 //结束时间
             }else {
                 InputStream in = connection.getInputStream();
-                File file = new File(PATH+imageName+".jps");
+                File file = new File(PATH+imageName+".jpg");
                 FileOutputStream fo = new FileOutputStream(file);
                 byte[] buf = new byte[1024];
                 int length = 0;
@@ -440,7 +471,7 @@ public class ImageReptile {
 //                System.out.println("耗时：" + time / 1000 + "s");
 //                uploadImageMap.put("status","0");
 //                uploadImageMap.put("result","上传成功");
-//                uploadImageMap.put("url","imgs"+sep+imageName+".jpg");
+//                uploadImageMap.put("url","Image"+sep+imageName+".jpg");
 //                uploadImageMap.put("realPath",PATH+imageName+".jpg");
 //                uploadImageMap.put("picsize", Long.toString(file.length()));
 //                uploadImageMap.put("originalName",file.getName());
@@ -527,7 +558,7 @@ public class ImageReptile {
 //            }
 //            uploadImageMap.put("status","0");
 //            uploadImageMap.put("result","上传成功");
-//            uploadImageMap.put("relativePath","imgs"+sep+file.getName());
+//            uploadImageMap.put("relativePath","Image"+sep+file.getName());
 //            uploadImageMap.put("realPath",PATH+file.getName());
 //            uploadImageMap.put("picsize", Long.toString(file.length()));
 //            uploadImageMap.put("originalName",file.getName());
