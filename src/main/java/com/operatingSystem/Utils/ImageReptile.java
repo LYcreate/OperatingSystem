@@ -1,10 +1,12 @@
 package com.operatingSystem.Utils;
 
+import net.coobird.thumbnailator.Thumbnails;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -270,12 +272,28 @@ public class ImageReptile {
                 }
                 in.close();
                 fo.close();
-                uploadImageMap.put("picsize", Long.toString(file.length()));
-                uploadImageMap.put("originalName",file.getName());
+
+                String resizedDirectorypath = PATH+imageName+"resized" + ".png";
+                FileOutputStream out2 = new FileOutputStream(resizedDirectorypath);
+                Thumbnails.of(PATH+imageName+".png").size(750, 425).outputQuality(1f).toOutputStream(out2);
+//                    Thumbnails.of(directoryPath).size(750, 425).outputQuality(f1).toOutputStream(out2);
+                System.out.println(resizedDirectorypath);
+                String resizedurl = "imgs"+sep+imageName+"resized"+".png";
+                uploadImageMap.put("url",resizedurl);
+                uploadImageMap.put("realPath",resizedDirectorypath);
+                try {
+                    uploadImageMap.put("picsize", Long.toString(out2.getChannel().size()));
+                }catch (Exception e){
+                    uploadImageMap.put("picsize", "0");
+                }
+//                uploadImageMap.put("originalName","resized"+file.getOriginalFilename());
+
+//                uploadImageMap.put("picsize", Long.toString(file.length()));
+                uploadImageMap.put("originalName",imageName+"resized" + ".png");
                 uploadImageMap.put("status","0");
                 uploadImageMap.put("result","上传成功");
-                uploadImageMap.put("url","imgs"+sep+imageName+".png");
-                uploadImageMap.put("realPath",PATH+imageName+".png");
+//                uploadImageMap.put("url","imgs"+sep+imageName+".png");
+//                uploadImageMap.put("realPath",PATH+imageName+".png");
                 //结束时间
             }else {
                 InputStream in = connection.getInputStream();
@@ -288,12 +306,28 @@ public class ImageReptile {
                 }
                 in.close();
                 fo.close();
-                uploadImageMap.put("picsize", Long.toString(file.length()));
-                uploadImageMap.put("originalName",file.getName());
+
+
+                String resizedDirectorypath = PATH+imageName+"resized" + ".jpg";
+                FileOutputStream out2 = new FileOutputStream(resizedDirectorypath);
+                Thumbnails.of(PATH+imageName+".jpg").size(750, 425).outputQuality(1f).toOutputStream(out2);
+//                    Thumbnails.of(directoryPath).size(750, 425).outputQuality(f1).toOutputStream(out2);
+                System.out.println(resizedDirectorypath);
+                String resizedurl = "imgs"+sep+imageName+"resized"+".jpg";
+                uploadImageMap.put("url",resizedurl);
+                uploadImageMap.put("realPath",resizedDirectorypath);
+                try {
+                    uploadImageMap.put("picsize", Long.toString(out2.getChannel().size()));
+                }catch (Exception e){
+                    uploadImageMap.put("picsize", "0");
+                }
+
+//                uploadImageMap.put("picsize", Long.toString(file.length()));
+                uploadImageMap.put("originalName",imageName+"resized" + ".jpg");
                 uploadImageMap.put("status","0");
                 uploadImageMap.put("result","上传成功");
-                uploadImageMap.put("url","imgs"+sep+imageName+".jpg");
-                uploadImageMap.put("realPath",PATH+imageName+".jpg");
+//                uploadImageMap.put("url","imgs"+sep+imageName+".jpg");
+//                uploadImageMap.put("realPath",PATH+imageName+".jpg");
             }
         } catch (Exception e) {
             e.printStackTrace();

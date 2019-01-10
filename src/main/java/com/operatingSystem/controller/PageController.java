@@ -82,16 +82,18 @@ public class PageController {
         return "/user/addpic";
     }
 
-    @RequestMapping("/user/editpic")
-    public String goUserAddpic(Model model, String id) {
+    @RequestMapping("/user/editpicture")
+    public String goUserAddpic(Model model, String url) {
 
-        Picture pic = new Picture();
-        try {
-            pic = pictureService.getPictureById(id);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        model.addAttribute("picture", JSONObject.fromObject(pic));
+//        Picture pic = new Picture();
+//        try {
+//            pic = pictureService.getPictureById(id);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
+//        model.addAttribute("picture", JSONObject.fromObject(pic));
+        model.addAttribute("url", url);
+        System.out.println("url"+url);
 //        model.addAttribute("picture", JSONObject.toJSON(pic));
         return "/user/editpic";
     }

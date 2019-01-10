@@ -71,9 +71,9 @@
                 <td colspan="8"><div id="page"></div></td>
             </tr>
         </table>
-        <tr>
-            <td colspan="8"><div id="page"></div></td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td colspan="8"><div id="page"></div></td>--%>
+        <%--</tr>--%>
         <div class="modal fade" id="pictureDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="height: 100%">
                 <div class="modal-content">
@@ -124,6 +124,7 @@
             },
             methods:{
                 load:function(){
+
                     $.ajax({
                         type: 'POST',
                         url: "/screenos/getallpictrues",
@@ -274,4 +275,6 @@
     function getLocalTime(nS) {
         return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
+
+
 </script>

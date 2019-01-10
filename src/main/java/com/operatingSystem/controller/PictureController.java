@@ -2,6 +2,7 @@ package com.operatingSystem.controller;
 //import com.operatingSystem.Utils.ImageReptile;
 import com.operatingSystem.Utils.ImageReptile;
 import com.operatingSystem.Utils.NetResult;
+import com.operatingSystem.Utils.UrlReptile;
 import com.operatingSystem.model.Picture;
 import com.operatingSystem.model.User;
 import com.operatingSystem.service.PictureService;
@@ -131,9 +132,9 @@ public class PictureController {
             String num,
             String batch) {
         NetResult result = new NetResult();
-        ImageReptile i = new ImageReptile();
+        UrlReptile u = new UrlReptile();
         result.status = 0;
-        result.result = i.OnlineSearch(keyword,num,batch);
+        result.result = u.OnlineSearch(keyword,num,batch);
         return result;
     }
 
@@ -151,8 +152,13 @@ public class PictureController {
             String orginalfilename) {
         NetResult result = new NetResult();
         ImageReptile i = new ImageReptile();
-        result.status = 0;
+
         result.result = i.DownloadFullImage(orginalfilename);
+        if(((Map<String,String>)(result.result)).get("status").equals("0")){
+            result.status = 0;
+        }else{
+            result.status = 1;
+        }
         return result;
     }
 

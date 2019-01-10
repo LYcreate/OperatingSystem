@@ -63,17 +63,17 @@
                 <!--<div class="small" style="height:200px;height:300px;overflow:hidden;"></div>-->
             </td>
         </tr>
-        <tr>
-            <th colspan="1" style="text-align:center;vertical-align:middle;">图片效果预览</th>
-            <td colspan="5" style="vertical-align:middle;">
-                <div class="small" style="width: 200px;height: 300px;overflow: hidden">
-                </div>
-            </td>
-        </tr>
         <tr v-if="ifDisplay">
             <th colspan="1" style="text-align:center;vertical-align:middle;">图片宣传图或海报</th>
             <td colspan="5" style="vertical-align:middle;">
                 <input type="hidden" id="BS_s" value="${BS}">
+            </td>
+        </tr>
+        <tr>
+            <th colspan="1" style="text-align:center;vertical-align:middle;">图片效果预览</th>
+            <td colspan="5" style="vertical-align:middle;">
+                <div class="small" style="width:750px;height: 425px;overflow: hidden">
+                </div>
             </td>
         </tr>
         <tr>
@@ -113,7 +113,7 @@
             preview:".small",
             movable:false,
             guides :true,//裁剪框虚线 默认true有
-            aspectRatio: 2/3, //裁剪框比例1:1
+            aspectRatio: 750/425, //裁剪框比例1:1
             // responsive : true,// 是否在窗口尺寸改变的时候重置cropper
             // background : true,// 容器是否显示网格背景
             // zoomable : true,//是否允许放大缩小图片
@@ -177,7 +177,8 @@
                 alert("is null");
                 return ;
             }
-            var accessoryName = app.picture.filename;
+            // var accessoryName = app.picture.filename;
+            var accessoryName = app.originalfilename;
             // var accessoryName = accessory.substring(accessory.lastIndexOf("\\")+1,accessory.length);//截取原文件名
             var dataURL = $image.cropper("getCroppedCanvas");//拿到剪裁后的数据
             var data = dataURL.toDataURL("image/*", 0.5);//转成base64
@@ -351,8 +352,6 @@
         });
     }
 
-
-
     // connect();
     layui.use(['element', 'upload', 'form', 'laydate'], function () {
         var laydate = layui.laydate();
@@ -407,13 +406,24 @@
         });
     });
 
+
     var app = new Vue({
         el: '.main-content',
         data: {
-            picture: ${picture},
+            picture: {
+                picturename: "",
+                url: "",
+                realpath: "",
+                picsize: "",
+                endDate: "",
+            },
+            serverurl:'${url}',
+            originalfilename:'',
             mysessionId:'',
             filename:'',
             isDisplay:false,
+        },
+        created:function(){
         },
         methods: {
             save: function () {
@@ -451,7 +461,7 @@
                             layer.closeAll('loading')
                             if (json.status == 1 ) {
                                 // sendMessage();
-                                app.picture.url={};
+                                app.picture={};
                                 console.log("savesuccess")
                                 layer.open({
                                     title: '提交信息',
@@ -529,5 +539,22 @@
         )
         layer.msg("裁剪完毕", {icon: 6});
     }
+
+    function b64DecodeUnicode(str) {
+        return decodeURIComponent(atob(str).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    };
+
+    $(document).ready(function(){
+        console.log(app.serverurl);
+        // var str = app.serverurl;
+        // console.log(str);
+        app.serverurl = '/screenos/imgs/'+app.serverurl;
+        console.log(app.serverurl);
+        $('#EditImg').cropper('replace', app.serverurl,false);
+        console.log("cropperstart")
+        app.originalfilename=app.serverurl.substring(15);
+    });
 
 </script>
