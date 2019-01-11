@@ -234,40 +234,21 @@ public class PictureController {
         }
         return result;
     }
-//    isrefresh: 0
-//    effectype: 1
-//    position: 1
-//    time: 2
-//    pictrue: 09a6e0c1-c532-4e89-9611-5d87f961f8d6
-//    uid: 16124400
-//    @RequestMapping(value = "/getbtos")
-//    public @ResponseBody  NetResult getbtos(
-//            BtoS bs){
-////            @RequestParam Integer isrefresh,
-////            @RequestParam Integer effectype,
-////            @RequestParam Integer position,
-////            @RequestParam Integer time,
-////            @RequestParam Picture picture,
-//////            @RequestParam String picture,
-////            @RequestParam String uid) {
-////        BtoS bs = new BtoS();
-////        bs.isrefresh=isrefresh;
-////        bs.time=time;
-////        bs.postion=position;
-////        bs.effectype=effectype;
-//////        try {
-//////            bs.pictrue=pictureService.getPictureById(picture);
-//////        }catch (Exception e){
-//////            bs.pictrue=picture;
-//////        }
-////        bs.pictrue=picture;
-////        bs.uid=uid;
-//        System.out.println(bs.toString());
-//        System.out.println(bs.uid);
-//        System.out.println(bs.pictrue);
-//        NetResult result = new NetResult();
-//        result.status=0;
-//        result.result=bs;
-//        return result;
-//    }
+
+    @RequestMapping(value = "/clearbs")
+    public @ResponseBody  NetResult clearbs(String equipid){
+        NetResult result = new NetResult();
+        try {
+            bsService.deleteBsByEquipid(equipid);
+            result.status=0;
+            result.result="清除成功";
+
+        }catch (Exception e){
+            System.out.println(e);
+            result.status=1;
+            result.result="清除失败";
+
+        }
+        return result;
+    }
 }
