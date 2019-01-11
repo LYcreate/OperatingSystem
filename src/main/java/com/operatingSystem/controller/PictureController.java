@@ -33,10 +33,24 @@ public class PictureController {
     public @ResponseBody
     List<String> test() throws Exception{
         List testPics = new ArrayList();
-        testPics.add("/screenos/images/16124400poster[7].jpg");
-        testPics.add("/screenos/images/16124400poster[8].jpg");
-        testPics.add("/screenos/images/16124400poster[9].jpg");
-        testPics.add("/screenos/images/16124400poster[10].jpg");
+        testPics.add("/images/1.jpg");
+        testPics.add("/images/2.jpg");
+        testPics.add("/images/3.jpg");
+        testPics.add("/images/4.jpg");
+        testPics.add("/images/5.jpg");
+        testPics.add("/images/6.jpg");
+        testPics.add("/images/7.jpg");
+        testPics.add("/images/8.jpg");
+        return testPics;
+    }
+    @RequestMapping(value = "/gettestpiclist2",    method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> test2() throws Exception{
+        List testPics = new ArrayList();
+        testPics.add("/images/1.jpg");
+        testPics.add("/images/2.jpg");
+        testPics.add("/images/3.jpg");
+        testPics.add("/images/4.jpg");
         return testPics;
     }
 
@@ -200,7 +214,7 @@ public class PictureController {
             @RequestParam Integer position,
             @RequestParam Integer time,
 //            @RequestParam Picture picture,
-            @RequestParam String picture,
+            @RequestParam String pictureid,
             @RequestParam String uid) {
         Bs bs = new Bs();
 //        BtoS bs = new BtoS();
@@ -208,7 +222,7 @@ public class PictureController {
         bs.time=time;
         bs.postion=position;
         bs.effectype=effectype;
-        bs.pictureid=picture;
+        bs.pictureid=pictureid;
 //        try {
 //            bs.pictrue=pictureService.getPictureById(picture);
 //        }catch (Exception e){

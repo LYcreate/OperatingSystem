@@ -1,7 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="template/head-nav.jsp"%>
-
+<%
+    String socketpath="ws://"+request.getServerName()+":"
+            +request.getServerPort()+path+"/";
+    request.getSession().setAttribute("uid","16124400");
+%>
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
     <legend>分享新的图片</legend>
@@ -88,19 +92,47 @@
 </div>
 <script>
 
-    var stompClient = null;
+    //websocket
+    var url ='<%=socketpath%>ws';
+    var para={'uid':"16124400"};
+    var strpara=JSON.stringify(para);
+    var sock = new WebSocket(url);      //打开WebSocket
 
-    function connect() {
-        var socket = new SockJS('/endpointWisely');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            stompClient.subscribe('/screen', function (result) {
-            })
-        });
+    sock.onopen = function() {          //处理连接开启事件
+        console.log('Opening');
+    };
+    // sayMarco();
+    sock.onmessage = function(e) {      //处理信息
+        console.log('Received Message: ');
+        console.log(e);
+
+    };
+
+    // sock.onclose = function() {         //处理连接关闭事件
+    //     console.log('Closing');
+    // };
+
+    function sayMarco() {               //发送信息函数
+        console.log('Sending Marco!');
+        // var data={
+        //     'isrefresh':1,
+        //     'effectype':1,
+        //     'postion':1,
+        //     'time':123,
+        //     'uid':'123456',
+        //     'pictrue':{
+        //         'id':1,
+        //         'picturename':"p1",
+        //         'url':"/testpic",
+        //         ' realpath':"realpic"
+        //     },
+        // };
+        var data = app.btos;
+        var message=JSON.stringify(data);
+        sock.send(message);
     }
 
 
-    // connect();
     layui.use(['element', 'form', 'laydate'], function () {
         var laydate = layui.laydate();
         var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
@@ -115,12 +147,14 @@
             picture: ${picture},
             mysessionId:'',
             btos:{
+                id:'rzfly',
                 isrefresh:'',
                 effectype:'',
                 position:'',
                 time:'',
-                picture:'',
+                pictureid:'',
                 uid:"16124400",
+                equipid:"16124400test",
             },
             filename:'',
             isDisplay:false,
@@ -170,7 +204,7 @@
                 else {
                     console.log('app.btos');
                     console.log(app.btos);
-                    app.btos.picture=app.picture.id;
+                    app.btos.pictureid=app.picture.id;
                     // app.btos.picture=app.picture;
                     $.ajax({
                         type: 'GET',
@@ -182,7 +216,8 @@
                             if (json.status == 0 ) {
                                 // sendMessage();
                                 console.log(json.result);
-                                console.log("savesuccess")
+                                console.log("savesuccess");
+                                sayMarco();
                                 layer.open({
                                     title: '提交信息',
                                     icon: 6,
@@ -228,14 +263,5 @@
             }
         }
     });
-    function sendMessage() {
-        stompClient.send("/pictureinput", {}, JSON.stringify({
-            // 'name':'testmessage',
-            // 'message':"update from user pictureinput",
-            // 'coordinationId':"???",
-            'name':'toone',
-            'message':''+app.picture.url,
-            'coordinationId':'',
-        }));
-    }
+
 </script>

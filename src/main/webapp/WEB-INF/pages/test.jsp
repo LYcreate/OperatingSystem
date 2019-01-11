@@ -1,183 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%
     String path=request.getContextPath();
     String basePath=request.getScheme()+"://"+request.getServerName()+":"
             +request.getServerPort()+path;
-    String socketpath="ws://"+request.getServerName()+":"
-            +request.getServerPort()+path+"/";
-    request.getSession().setAttribute("uid","654321");
 %>
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="Generator" content="EditPlus®">
-    <meta name="Author" content="">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
-    <title>Document</title>
-    <script src="<%=basePath%>/js/vue.min.js"></script>
-    <script src="<%=basePath%>/js/vue-router.min.js"></script>
+<meta charset="UTF-8">
+<meta name="Generator" content="EditPlus®">
+<meta name="Author" content="">
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<title>Document</title>
+<script src="<%=basePath%>/js/vue.min.js"></script>
+<script src="<%=basePath%>/js/vue-router.min.js"></script>
     <script src="<%=basePath%>/js/jquery.min.js"></script>
-    <link rel="stylesheet" href="<%=basePath%>/css/swiper.css">
-    <link rel="stylesheet" href="<%=basePath%>/css/swiper.min.css">
-    <script src="<%=basePath%>/js/swiper.js"></script>
-    <script src="<%=basePath%>/js/swiper.min.js"></script>
+<link rel="stylesheet" href="<%=basePath%>/css/swiper.css">
+<link rel="stylesheet" href="<%=basePath%>/css/swiper.min.css">
+<script src="<%=basePath%>/js/swiper.js"></script>
+<script src="<%=basePath%>/js/swiper.min.js"></script>
 
-    <style>
-        .swiper-container1 {
-            width: 50%;
-            height: 50%;
-        }
+<style>
+    .swiper-container1 {
+    width: 750px;
+    height: 425px;
+	}
 
-        .swiper-container2 {
-            width: 50%;
-            height: 50%;
-        }
-        .swiper-container3 {
-            width: 50%;
-            height: 50%;
-        }
-        .swiper-container4 {
-            width: 50%;
-            height: 50%;
-         /*755*422*/
-        }
-    </style>
+    .swiper-container2 {
+        width: 750px;
+        height: 425px;
+    }
+    .swiper-container3 {
+        width: 750px;
+        height: 425px;
+    }
+    .swiper-container4 {
+        width: 750px;
+        height: 425px;
+    }
+</style>
 </head>
 <body>
 <div class="demo">
-    <div class="swiper-container1" style="float:left" >
-        <div class="swiper-wrapper">
-            <div v-for="pica in picas" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="pica" ></div>
-        </div>
-        <%--<!--  如果需要分页器 -->--%>
-        <%--<div class="swiper-pagination"></div>    --%>
-        <%--<!--  如果需要导航按钮 -->--%>
-        <%--<div class="swiper-button-prev"></div>--%>
-        <%--<div class="swiper-button-next"></div>--%>
-        <%--<!-- 如果需要滚动条 -->--%>
-        <%--<div class="swiper-scrollbar"></div> --%>
-    </div>
+   <div class="swiper-container1" style="float:left" >
+       <div class="swiper-wrapper">
+             <div v-for="pica in picas" class="swiper-slide swiper-slide-next"><img v-bind:src="pica" ></div>
+      </div>
+ <%--<!--  如果需要分页器 -->--%>
+      <%--<div class="swiper-pagination"></div>    --%>
+<%--<!--  如果需要导航按钮 -->--%>
+      <%--<div class="swiper-button-prev"></div>--%>
+      <%--<div class="swiper-button-next"></div>--%>
+ <%--<!-- 如果需要滚动条 -->--%>
+      <%--<div class="swiper-scrollbar"></div> --%>
+   </div>
 
-    <div class="swiper-container2" style="float:right ">
-        <div class="swiper-wrapper">
-            <div v-for="picb in picbs" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picb" ></div>
-        </div>
-    </div>
+     <div class="swiper-container2" style="float:right ">
+      <div class="swiper-wrapper">
+          <div v-for="picb in picbs" class="swiper-slide swiper-slide-next"><img v-bind:src="picb" ></div>
+      </div>
+     </div>
 
-    <div class="swiper-container3" style="float:left" >
-        <div class="swiper-wrapper">
-            <div v-for="picc in piccs" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picc" ></div>
+     <div class="swiper-container3" style="float:left" >
+         <div class="swiper-wrapper">
+             <div v-for="picc in piccs" class="swiper-slide swiper-slide-next"><img v-bind:src="picc" ></div>
         </div>
-    </div>
+      </div>
 
-    <div class="swiper-container4" style="float:right ">
-        <div class="swiper-wrapper">
-            <div v-for="picd in picds" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picd" ></div>
-        </div>
-    </div>
+	  <div class="swiper-container4" style="float:right ">
+      <div class="swiper-wrapper">
+          <div v-for="picd in picds" class="swiper-slide swiper-slide-next"><img v-bind:src="picd" ></div>
+      </div>
+       </div>
 
 </div>
 
 <script>
-    var url ='<%=socketpath%>ws';
-    var para={'uid':"123456"};
-    var strpara=JSON.stringify(para);
-    var sock = new WebSocket(url);      //打开WebSocket
-
-    sock.onopen = function() {          //处理连接开启事件
-        console.log('Opening');
-    };
-    // sayMarco();
-    sock.onmessage = function(e) {      //处理信息
-        console.log('Received Message: ');
-        console.log(e.data["pictureid"]);
-    //     $.ajax({
-    //         url: 'http://localhost:8080/screenos/getpicbyid',
-    //         type: 'Get',
-    //         data:{id:e.data["pictureid"]},
-    //         success: function (data) { // 接口调用成功回调函数
-    //
-    //         }
-    //      )
-    };
-    function testpic() {
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(1);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(11);
-                }
-                vmm.picas = srcs;
-                console.log(vmm.picas);
-                console.log(111);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(2);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(22);
-                }
-                vmm.picbs = srcs;
-                console.log(vmm.picbs);
-                console.log(222);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(3);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(33);
-                }
-                vmm.piccs = srcs;
-                console.log(vmm.piccs);
-                console.log(333);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(4);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(44);
-                }
-                vmm.picds = srcs;
-                console.log(vmm.picds);
-                console.log(444);
-            }
-        })
-
-    }
     // 图片动态绑定
     var vmm = new Vue({
         el: ".demo",
@@ -196,72 +96,72 @@
                     url: 'http://localhost:8080/screenos/gettestpiclist',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
-                        // console.log(data);
-                        // console.log(1);
+                        console.log(data);
+                        console.log(1);
                         var presrc = "<%=basePath%>"
                         var srcs = new Array(data.length)
                         for (var i = 0; i < data.length; i++) {
                             srcs[i] = presrc + data[i];
-                            // console.log(srcs[i]);
-                            // console.log(11);
+                            console.log(srcs[i]);
+                            console.log(11);
                         }
                         vmm.picas = srcs;
-                        // console.log(vmm.picas);
-                        // console.log(111);
+                        console.log(vmm.picas);
+                        console.log(111);
                     }
                 });
                 $.ajax({
                     url: 'http://localhost:8080/screenos/gettestpiclist',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
-                        // console.log(data);
-                        // console.log(2);
+                        console.log(data);
+                        console.log(2);
                         var presrc = "<%=basePath%>"
                         var srcs = new Array(data.length)
                         for (var i = 0; i < data.length; i++) {
                             srcs[i] = presrc + data[i];
-                            // console.log(srcs[i]);
-                            // console.log(22);
+                            console.log(srcs[i]);
+                            console.log(22);
                         }
                         vmm.picbs = srcs;
-                        // console.log(vmm.picbs);
-                        // console.log(222);
+                        console.log(vmm.picbs);
+                        console.log(222);
                     }
                 });
                 $.ajax({
                     url: 'http://localhost:8080/screenos/gettestpiclist',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
-                        // console.log(data);
-                        // console.log(3);
+                        console.log(data);
+                        console.log(3);
                         var presrc = "<%=basePath%>"
                         var srcs = new Array(data.length)
                         for (var i = 0; i < data.length; i++) {
                             srcs[i] = presrc + data[i];
-                            // console.log(srcs[i]);
-                            // console.log(33);
+                            console.log(srcs[i]);
+                            console.log(33);
                         }
                         vmm.piccs = srcs;
-                        // console.log(vmm.piccs);
-                        // console.log(333);
+                        console.log(vmm.piccs);
+                        console.log(333);
                     }
                 });
                 $.ajax({
                     url: 'http://localhost:8080/screenos/gettestpiclist',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
-                        // console.log(data);
-                        // console.log(4);
+                        console.log(data);
+                        console.log(4);
                         var presrc = "<%=basePath%>"
                         var srcs = new Array(data.length)
                         for (var i = 0; i < data.length; i++) {
                             srcs[i] = presrc + data[i];
-                            // console.log(srcs[i]);
-                            // console.log(44);
+                            console.log(srcs[i]);
+                            console.log(44);
                         }
                         vmm.picds = srcs;
-                        // console.log(vmm.picds);
-                        // console.log(444);
+                        console.log(vmm.picds);
+                        console.log(444);
                     }
                 })
 
@@ -291,6 +191,9 @@
         },
         methods:{
             change1:function(numbs) {
+                console.log(1111111);
+                console.log(change.effA);
+                console.log(2222222);
                 // changeA.effA = localStorage.getItem('change-effA');
                 // console.log(change.effA);
                 switch (numbs) {
@@ -380,26 +283,26 @@
     });
 
     var mySwiper1 = new  Swiper ('.swiper-container1', {
-        direction: 'horizontal', // 垂直切换选项
-        loop: true, // 循环模式选项
-        //autoplay:true,
-        effect:change.effA,
-        observer:true,//修改swiper自己或子元素时，自动初始化swiper
-        observeParents:true,//修改swiper的父元素时，自动初始化swiper
-        // // 如果需要分页器
-        // pagination: {
-        //   el: '.swiper-pagination',
-        // },
-        // // 如果需要前进后退按钮
-        // navigation: {
-        //   nextEl: '.swiper-button-next',
-        //   prevEl: '.swiper-button-prev',
-        // },
-        // // 如果需要滚动条
-        // scrollbar: {
-        //   el: '.swiper-scrollbar',
-        // },
-    });
+    direction: 'horizontal', // 垂直切换选项
+    loop: true, // 循环模式选项 
+	//autoplay:true,
+	 effect:change.effA,
+      observer:true,//修改swiper自己或子元素时，自动初始化swiper
+      observeParents:true,//修改swiper的父元素时，自动初始化swiper
+    // // 如果需要分页器
+    // pagination: {
+    //   el: '.swiper-pagination',
+    // },
+    // // 如果需要前进后退按钮
+    // navigation: {
+    //   nextEl: '.swiper-button-next',
+    //   prevEl: '.swiper-button-prev',
+    // },
+    // // 如果需要滚动条
+    // scrollbar: {
+    //   el: '.swiper-scrollbar',
+    // },
+  });
 
     var mySwiper2 = new  Swiper ('.swiper-container2', {
         direction: 'horizontal', // 垂直切换选项
@@ -430,22 +333,16 @@
 
     //   图片切换函数
     var  slide = new Vue({
-        data:{
-            p1:0,
-            p2:0,
-            p3:0,
-            p4:0,
-        },
         methods:{
             PrevA:function() {
-                if (mySwiper1.realIndex == 0 ) {
-                    mySwiper1.slideTo(vmm.picas.length-1, 1000, false);
+                if (mySwiper1.realIndex == 0) {
+                    mySwiper1.slideTo(change.effA.length-1, 1000, false);
                 }
                 else
                     mySwiper1.slidePrev();
             },
             NextA:function(){
-                if(mySwiper1.realIndex == vmm.picas.length-1){
+                if(mySwiper1.realIndex == change.effA.length-1){
                     mySwiper1.slideTo(0,1000,false);
                 }
                 else
@@ -453,13 +350,13 @@
             },
             PrevB:function() {
                 if (mySwiper2.realIndex == 0) {
-                    mySwiper2.slideTo(vmm.picbs.length-1, 1000, false);
+                    mySwiper2.slideTo(change.effB.length-1, 1000, false);
                 }
                 else
                     mySwiper2.slidePrev();
             },
             NextB:function(){
-                if(mySwiper2.realIndex == vmm.picbs.length-1){
+                if(mySwiper2.realIndex == change.effB.length-1){
                     mySwiper2.slideTo(0,1000,false);
                 }
                 else
@@ -467,13 +364,13 @@
             },
             PrevC:function() {
                 if (mySwiper3.realIndex == 0) {
-                    mySwiper3.slideTo(vmm.piccs.length-1, 1000, false);
+                    mySwiper3.slideTo(change.effC.length-1, 1000, false);
                 }
                 else
                     mySwiper3.slidePrev();
             },
             NextC:function(){
-                if(mySwiper3.realIndex == vmm.piccs.length-1){
+                if(mySwiper3.realIndex == change.effC.length-1){
                     mySwiper3.slideTo(0,1000,false);
                 }
                 else
@@ -481,81 +378,17 @@
             },
             PrevD:function() {
                 if (mySwiper4.realIndex == 0) {
-                    mySwiper4.slideTo(vmm.picds.length-1, 1000, false);
+                    mySwiper4.slideTo(change.effD.length-1, 1000, false);
                 }
                 else
                     mySwiper4.slidePrev();
             },
             NextD:function(){
-                if(mySwiper4.realIndex == vmm.picds.length-1){
+                if(mySwiper4.realIndex == change.effD.length-1){
                     mySwiper4.slideTo(0,1000,false);
                 }
                 else
                     mySwiper4.slideNext();
-            },
-            slidingA:function(){
-                if((slide.p1 == 1) && (mySwiper1.realIndex != 0)) {
-                    mySwiper1.slidePrev();
-                }
-                else if((slide.p1 == 0) && (mySwiper1.realIndex != vmm.picas.length-1)){
-                    mySwiper1.slideNext();
-                }
-                else if(mySwiper1.realIndex == vmm.picas.length-1){
-                    slide.p1 = !slide.p1;
-                    mySwiper1.slidePrev();
-                }
-                else if(mySwiper1.realIndex == 0){
-                    slide.p1 = !slide.p1;
-                    mySwiper1.slideNext();
-                }
-            },
-            slidingB:function(){
-                if((slide.p2 == 1) && (mySwiper2.realIndex != 0)) {
-                    mySwiper2.slidePrev();
-                }
-                else if((slide.p2 == 0) && (mySwiper2.realIndex != vmm.picbs.length-1)){
-                    mySwiper2.slideNext();
-                }
-                else if(mySwiper2.realIndex == vmm.picbs.length-1){
-                    slide.p2 = !slide.p2;
-                    mySwiper2.slidePrev();
-                }
-                else if(mySwiper2.realIndex == 0){
-                    slide.p2 = !slide.p2;
-                    mySwiper2.slideNext();
-                }
-            },
-            slidingC:function(){
-                if((slide.p3 == 1) && (mySwiper3.realIndex != 0)) {
-                    mySwiper3.slidePrev();
-                }
-                else if((slide.p3 == 0) && (mySwiper3.realIndex != vmm.piccs.length-1)){
-                    mySwiper3.slideNext();
-                }
-                else if(mySwiper3.realIndex == vmm.piccs.length-1){
-                    slide.p3 = !slide.p3;
-                    mySwiper3.slidePrev();
-                }
-                else if(mySwiper3.realIndex == 0){
-                    slide.p3 = !slide.p3;
-                    mySwiper3.slideNext();
-                }
-            },
-            slidingD:function(){
-                if((slide.p4 == 1) && (mySwiper4.realIndex != 0)) {
-                    mySwiper4.slidePrev();
-                }
-                else if((slide.p4 == 0) && (mySwiper4.realIndex != vmm.picds.length-1)){
-                    mySwiper4.slideNext();
-                }
-                else if(mySwiper4.realIndex == vmm.picds.length-1){
-                    slide.p4 = !slide.p4;
-                    mySwiper4.slidePrev();
-                }
-                else if(mySwiper4.realIndex == 0){
-                    slide.p4 = !slide.p4;
-                    mySwiper4.slideNext();
-                }
             }
         }
     });
@@ -572,8 +405,8 @@
             autosetA:function(mode,interval){
                 if(mode == 1)
                 {
-                    autoslide.t1 = window.setInterval("slide.slidingA()",interval);
-                }
+                    autoslide.t1 = window.setInterval("slide.NextA()",interval);
+                    }
                 else
                 {
                     window.clearInterval(autoslide.t1);
@@ -582,7 +415,7 @@
             autosetB:function(mode,interval){
                 if(mode == 1)
                 {
-                    autoslide.t2 = window.setInterval("slide.slidingB()",interval);
+                    autoslide.t2 = window.setInterval("slide.NextB()",interval);
                 }
                 else
                 {
@@ -592,7 +425,7 @@
             autosetC:function(mode,interval){
                 if(mode == 1)
                 {
-                    autoslide.t3 = window.setInterval("slide.slidingC()",interval);
+                    autoslide.t3 = window.setInterval("slide.NextC()",interval);
                 }
                 else
                 {
@@ -602,7 +435,7 @@
             autosetD:function(mode,interval){
                 if(mode == 1)
                 {
-                    autoslide.t4 = window.setInterval("slide.slidingD()",interval);
+                    autoslide.t4 = window.setInterval("slide.NextD()",interval);
                 }
                 else
                 {

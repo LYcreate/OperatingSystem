@@ -96,4 +96,38 @@ public class Bs {
     private void ensureId() {
         this.setId(UUID.randomUUID().toString());
     }
+
+    public Bs(String id, Integer isrefresh, Integer effectype, Integer postion, Integer time, String pictureid, String uid, String equipid) {
+        this.id = id;
+        this.isrefresh = isrefresh;
+        this.effectype = effectype;
+        this.postion = postion;
+        this.time = time;
+        this.pictureid = pictureid;
+        this.uid = uid;
+        this.equipid = equipid;
+    }
+
+    public Bs(Integer isrefresh, Integer effectype, Integer postion, Integer time, String pictureid, String uid) {
+        this.isrefresh = isrefresh;
+        this.effectype = effectype;
+        this.postion = postion;
+        this.time = time;
+        this.pictureid = pictureid;
+        this.uid = uid;
+    }
+
+    @Override
+    public String toString() {
+        return "Bs{" +
+                "id='" + id + '\'' +
+                ", isrefresh=" + isrefresh +
+                ", effectype=" + effectype +
+                ", postion=" + postion +
+                ", time=" + time +
+                ", pictureid='" + pictureid + '\'' +
+                ", uid='" + uid + '\'' +
+                ", equipid='" + equipid + '\'' +
+                '}';
+    }
 }

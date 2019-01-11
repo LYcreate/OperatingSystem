@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.operatingSystem.Utils.BtoS;
 import com.operatingSystem.Utils.StoB;
+import com.operatingSystem.model.Bs;
 import com.operatingSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,13 +38,14 @@ public class MyWebSocketHandler implements WebSocketHandler{
 
     //发送信息前的处理
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-
+        System.out.println("开始处理消息");
         if(webSocketMessage.getPayloadLength()==0)return;
         //得到Socket通道中的数据并转化为Message对象
-        BtoS btoS=new Gson().fromJson(webSocketMessage.getPayload().toString(),BtoS.class);
+        System.out.println("正在处理Json");
+        Bs btoS=new Gson().fromJson(webSocketMessage.getPayload().toString(),Bs.class);
         System.out.println(btoS.toString());
         //发送Socket信息
-        StoB stoB=new StoB(btoS.isrefresh,btoS.effectype,btoS.postion,btoS.time,btoS.pictrue,btoS.uid);
+        Bs stoB=new Bs(btoS.id,btoS.isrefresh, btoS.effectype, btoS.postion, btoS.time, btoS.pictureid, btoS.uid,btoS.equipid);
         sendMessageToUser(btoS.uid, new TextMessage(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(stoB)));
     }
 
@@ -81,10 +83,16 @@ public class MyWebSocketHandler implements WebSocketHandler{
     //发送信息的实现
     public void sendMessageToUser(String uid, TextMessage message)
             throws IOException {
-        System.out.println(uid);
+        System.out.println("uid"+uid);
         WebSocketSession session = userSocketSessionMap.get(uid);
+        WebSocketSession session2=userSocketSessionMap.get("654321");
         if (session != null && session.isOpen()) {
+            System.out.println("session2"+session2 != null);
             session.sendMessage(message);
+            System.out.println(session2 != null);
+            if (session2 != null && session2.isOpen()){
+                session2.sendMessage(message);
+            }
         }
     }
 }

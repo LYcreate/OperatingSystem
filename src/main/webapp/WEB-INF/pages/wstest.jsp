@@ -29,16 +29,17 @@
 
     sock.onopen = function() {          //处理连接开启事件
         console.log('Opening');
-        sayMarco();
+
     };
+    // sayMarco();
     sock.onmessage = function(e) {      //处理信息
         console.log('Received Message: ');
 
     };
-
-    sock.onclose = function() {         //处理连接关闭事件
-        console.log('Closing');
-    };
+    //
+    // sock.onclose = function() {         //处理连接关闭事件
+    //     console.log('Closing');
+    // };
 
     function sayMarco() {               //发送信息函数
         console.log('Sending Marco!');
