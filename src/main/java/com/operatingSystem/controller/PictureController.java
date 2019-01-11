@@ -211,7 +211,7 @@ public class PictureController {
 //            BtoS bs){
             @RequestParam Integer isrefresh,
             @RequestParam Integer effectype,
-            @RequestParam Integer position,
+            @RequestParam Integer postion,
             @RequestParam Integer time,
 //            @RequestParam Picture picture,
             @RequestParam String pictureid,
@@ -220,7 +220,7 @@ public class PictureController {
 //        BtoS bs = new BtoS();
         bs.isrefresh=isrefresh;
         bs.time=time;
-        bs.postion=position;
+        bs.postion=postion;
         bs.effectype=effectype;
         bs.pictureid=pictureid;
 //        try {

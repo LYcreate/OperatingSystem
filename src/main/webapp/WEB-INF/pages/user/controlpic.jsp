@@ -57,19 +57,19 @@
         <tr>
             <th colspan="1" style="text-align:center">图片位置</th>
             <td colspan="5">
-                <input type="radio" id="zuoshang" value="1" v-model="btos.position">
+                <input type="radio" id="zuoshang" value="1" v-model="btos.postion">
                 <label for="zuoshang">左上角</label>
                 <br>
-                <input type="radio" id="youshang" value="2" v-model="btos.position">
+                <input type="radio" id="youshang" value="2" v-model="btos.postion">
                 <label for="youshang">右上角</label>
                 <br>
-                <input type="radio" id="zuoxia" value="3" v-model="btos.position">
+                <input type="radio" id="zuoxia" value="3" v-model="btos.postion">
                 <label for="zuoxia">左下角</label>
                 <br>
-                <input type="radio" id="youxia" value="4" v-model="btos.position">
+                <input type="radio" id="youxia" value="4" v-model="btos.postion">
                 <label for="youxia">右下角</label>
                 <br>
-                <span>Picked: {{btos.position}}</span>
+                <span>Picked: {{btos.postion}}</span>
             </td>
         </tr>
         <tr>
@@ -150,7 +150,7 @@
                 id:'rzfly',
                 isrefresh:'',
                 effectype:'',
-                position:'',
+                postion:'',
                 time:'',
                 pictureid:'',
                 uid:"16124400",
@@ -179,7 +179,7 @@
                         offset: '300px',
                         content: "effectype不能为空",
                     })
-                }else if (app.btos.position == "") {
+                }else if (app.btos.postion == "") {
                     layer.open({
                         title: '错误信息',
                         icon: 5,

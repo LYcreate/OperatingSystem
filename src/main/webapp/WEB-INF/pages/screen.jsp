@@ -93,7 +93,105 @@
     // sayMarco();
     sock.onmessage = function(e) {      //处理信息
         console.log('Received Message: ');
-        console.log(e.data["pictureid"]);
+        console.log(e);
+        // console.log(e.data["pictureid"]);
+        var result=e["data"];
+        console.log(result);
+        // console.log(result["pictureid"]);
+        console.log(result["pictureid"]);
+        console.log(result.pictureid);
+        var obj = JSON.parse(result);
+        console.log(obj["pictureid"]);
+        console.log(obj.pictureid);
+        console.log(obj);
+        result=obj;
+        // console.log(result.getAttr("pictureid"));
+        // console.log(result.get("pictureid"));
+        if(result["postion"]==1){
+            if(result["isrefresh"]==1){
+                console.log(vmm.picas);
+                $.ajax({
+                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    type: 'Get',
+                    data:{'id':result["pictureid"]},
+                    success: function (data) { // 接口调用成功回调函数
+                        console.log(data);
+                        vmm.picas.push(data.url);
+                        console.log(vmm.picas);
+                    }
+                 });
+            }else{
+                console.log(result.time);
+                if(result.time>0)
+                autoslide.autosetA(1,result.time*1000);
+                else{
+                    autoslide.autosetD(2,result.time*1000);
+                }
+            }
+        }else if(result.postion==2){
+            if(result.isrefresh==1){
+                console.log(vmm.picbs);
+                $.ajax({
+                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    type: 'Get',
+                    data:{'id':result["pictureid"]},
+                    success: function (data) { // 接口调用成功回调函数
+                        console.log(data);
+                        vmm.picbs.push(data.url);
+                        console.log(vmm.picbs);
+                    }
+                });
+            }else{
+                console.log(result.time);
+                if(result.time>0)
+                    autoslide.autosetB(1,result.time*1000);
+                else{
+                    autoslide.autosetD(2,result.time*1000);
+                }
+            }
+        }else if(result.postion==3){
+            if(result.isrefresh==1){
+                console.log(vmm.piccs);
+                $.ajax({
+                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    type: 'Get',
+                    data:{'id':result["pictureid"]},
+                    success: function (data) { // 接口调用成功回调函数
+                        console.log(data);
+                        vmm.piccs.push(data.url);
+                        console.log(vmm.piccs);
+                    }
+                });
+            }else{
+                console.log(result.time);
+                if(result.time>0)
+                    autoslide.autosetC(1,result.time*1000);
+                else{
+                    autoslide.autosetD(2,result.time*1000);
+                }
+            }
+        }else if(result.postion==4){
+            if(result.isrefresh==1){
+                console.log(vmm.picds);
+                $.ajax({
+                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    type: 'Get',
+                    data:{'id':result["pictureid"]},
+                    success: function (data) { // 接口调用成功回调函数
+                        console.log(data);
+                        vmm.picds.push(data.url);
+                        console.log(vmm.picds);
+                    }
+                });
+            }else{
+                console.log(result.time);
+                if(result.time>0)
+                    autoslide.autosetD(1,result.time*1000);
+                else{
+                    autoslide.autosetD(2,result.time*1000);
+                }
+            }
+        }
     //     $.ajax({
     //         url: 'http://localhost:8080/screenos/getpicbyid',
     //         type: 'Get',
@@ -193,7 +291,7 @@
         methods: {
             load: function () {
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist',
+                    url: 'http://localhost:8080/screenos/gettestpiclist2',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         // console.log(data);
@@ -206,6 +304,7 @@
                             // console.log(11);
                         }
                         vmm.picas = srcs;
+                        autoslide.autosetA(1,5000);
                         // console.log(vmm.picas);
                         // console.log(111);
                     }
@@ -224,6 +323,7 @@
                             // console.log(22);
                         }
                         vmm.picbs = srcs;
+                        autoslide.autosetB(1,5000);
                         // console.log(vmm.picbs);
                         // console.log(222);
                     }
@@ -242,6 +342,7 @@
                             // console.log(33);
                         }
                         vmm.piccs = srcs;
+                        autoslide.autosetC(1,5000);
                         // console.log(vmm.piccs);
                         // console.log(333);
                     }
@@ -260,6 +361,7 @@
                             // console.log(44);
                         }
                         vmm.picds = srcs;
+                        autoslide.autosetD(1,5000);
                         // console.log(vmm.picds);
                         // console.log(444);
                     }
