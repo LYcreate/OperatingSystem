@@ -85,7 +85,7 @@
                             success: function (json) {
                                 if (json.status == 0) {
                                     layer.msg(json.result, {icon: 6});
-                                    window.location.href="/screenos/index";
+                                    window.location.href="<%=basePath%>/index";
                                 } else {
                                     layer.alert(json.result, {icon: 5});
                                 }
@@ -93,15 +93,15 @@
                         });
                     },
                     guest: function () {
-                        $.ajax({
+                        jQuery.ajax({
                             type: 'POST',
-                            url: "<%=path%>/user/guest",
+                            url: "/user/guest",
                             data:"",
                             dataType: 'json',
                             success: function (json) {
                                 if (json.status == 0) {
                                     layer.msg(json.result, {icon: 6});
-                                    window.location.href="/screenos/index";
+                                    window.location.href="/index";
                                 } else {
                                     layer.alert(json.result, {icon: 5});
                                 }
@@ -111,13 +111,13 @@
                     master: function () {
                         jQuery.ajax({
                             type: 'POST',
-                            url: "<%=path%>/user/master",
+                            url: "/user/master",
                             data:"",
                             dataType: 'json',
                             success: function (json) {
                                 if (json.status == 0) {
                                     layer.msg(json.result, {icon: 6});
-                                    window.location.href="/screenos/index";
+                                    window.location.href="/index";
                                 } else {
                                     layer.alert(json.result, {icon: 5});
                                 }
@@ -127,14 +127,14 @@
                     logout: function () {
                         jQuery.ajax({
                             type: 'POST',
-                            url: "<%=path%>/user/logout",
+                            url: "/user/logout",
                             data: {
                             },
                             dataType: 'json',
                             success: function (json) {
                                 if (json.status == 0) {
                                     layer.msg(json.result, {icon: 6});
-                                    window.location.href="/screenos/index";
+                                    window.location.href="/index";
                                 } else {
                                     layer.alert(json.result, {icon: 5});
                                 }

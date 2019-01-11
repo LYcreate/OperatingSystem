@@ -27,4 +27,16 @@ public class BtoS {
     public BtoS(int isrefresh) {
         this.isrefresh = isrefresh;
     }
+
+    @Override
+    public String toString() {
+        return "BtoS{" +
+                "isrefresh=" + isrefresh +
+                ", effectype=" + effectype +
+                ", postion=" + postion +
+                ", time=" + time +
+                ", pictrue=" + pictrue +
+                ", uid='" + uid + '\'' +
+                '}';
+    }
 }
