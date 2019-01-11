@@ -6,19 +6,24 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path=request.getContextPath();
+    String basePath=request.getScheme()+"://"+request.getServerName()+":"
+            +request.getServerPort()+path+"/";
+%>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>管理后台</title>
-    <link rel="stylesheet" href="/screenos/old/layui/css/layui.css"/>
-    <link rel="stylesheet" href="/screenos/css/cropper.css"/>
+    <link rel="stylesheet" href="<%=path%>/old/layui/css/layui.css"/>
+    <link rel="stylesheet" href="<%=path%>/css/cropper.css"/>
     <%--<link rel="stylesheet" href="/screenos/css/bootstrap.min.css">--%>
-    <script src="/screenos/js/vue1.0.js"></script>
-    <script src="/screenos/js/jquery.min.js"></script>
-    <script src="/screenos/old/layui/layui.js"></script>
-    <script src="/screenos/js/stomp.js"></script>
-    <script src="/screenos/js/sockjs.min.js"></script>
-    <script src="/screenos/js/cropper.js"></script>
+    <script src="<%=path%>/js/vue1.0.js"></script>
+    <script src="<%=path%>/js/jquery.min.js"></script>
+    <script src="<%=path%>/old/layui/layui.js"></script>
+    <script src="<%=path%>/js/stomp.js"></script>
+    <script src="<%=path%>/js/sockjs.min.js"></script>
+    <script src="<%=path%>/js/cropper.js"></script>
     <%--<script src="/screenos/js/bootstrap.min.js"></script>--%>
 </head>
 <body class="layui-layout-body">

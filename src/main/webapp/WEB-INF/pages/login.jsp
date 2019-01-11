@@ -85,7 +85,7 @@
                             success: function (json) {
                                 if (json.status == 0) {
                                     layer.msg(json.result, {icon: 6});
-                                    window.location.href="/index";
+                                    window.location.href="<%=basePath%>/index";
                                 } else {
                                     layer.alert(json.result, {icon: 5});
                                 }

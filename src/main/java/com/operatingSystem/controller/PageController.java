@@ -51,7 +51,10 @@ public class PageController {
     /*
      图片控制部分
             */
-
+    @RequestMapping("/wstest")
+    public String wstest(){
+        return "/wstest";
+    }
     @RequestMapping("/manage/control")
     public String goManageIndex(){
 

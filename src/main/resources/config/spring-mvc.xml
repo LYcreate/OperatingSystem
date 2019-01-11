@@ -3,12 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
     <!--将链接中/p的静态的访问路径映射为URL，常用于加载html、js、css、图片、视频等静态资源-->
     <!--<mvc:resources mapping="/resources/**" location="/,classpath:/META-INF/publicResources/"/>-->
@@ -44,5 +45,14 @@
         <property name="maxUploadSize" value="50000000"/>
         <property name="defaultEncoding" value="utf-8"></property>
     </bean>
+    <context:component-scan base-package="com.operatingSystem.wsocket" />
+    <!--<websocket:handlers>-->
+        <!--<websocket:mapping path="/ws" handler="myWebSocketHandler"/>-->
+        <!--<websocket:handshake-interceptors>-->
+            <!--<bean class="com.operatingSystem.wsocket.MyHandShakeInterceptor"/>-->
+        <!--</websocket:handshake-interceptors>-->
+        <!--<websocket:sockjs/>-->
+    <!--</websocket:handlers>-->
+    <!--<bean id="myWebSocketHandler" class="com.operatingSystem.wsocket.MyWebSocketHandler"/>-->
     <!--<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>-->
 </beans>

@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="template/head-nav.jsp"%>
-
 <fieldset class="layui-elem-field layui-field-title"
           style="margin-top: 10px;width:90%">
     <legend>分享新的图片</legend>

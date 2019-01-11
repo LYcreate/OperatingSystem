@@ -96,7 +96,7 @@
         methods: {
             load: function () {
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist',
+                    url: '<%=basePath%>/gettestpiclist',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         console.log(data);
