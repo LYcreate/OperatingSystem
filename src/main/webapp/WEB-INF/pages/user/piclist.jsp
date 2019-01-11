@@ -454,9 +454,9 @@
                     <div class="modal-body">
                         <b>图片信息：</b><img style="max-height: 200px;" v-bind:src="picture.url" alt="图片丢失或不存在" onerror="this.src='/screenos/images/defaultpic.png'"/>
                         <hr/>
-                        <b>图片地址：</b><h1>{{picture.url}}</h1>
+                        <b>图片地址：</b><div style="width:100px;overflow:fragments;white-space:nowrap;word-break:keep-all;">{{picture.url}}</div>
                         <hr/>
-                        <b>有效期至：</b><h1>{{picture.endDate}}</h1>
+                        <b>有效期至：</b><div style="width:100px;overflow:fragments;white-space:nowrap;word-break:keep-all;">{{picture.endDate}}</div>
                         <hr/>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default"  v-on:click="add(picture)">
@@ -660,11 +660,11 @@
             console.log(result);
             datas=[];
             var pics=result;
-            // for(i=0;i<pics.length;i++)
-            // {
-            //     pics[i].subDate=getLocalTime(pics[i].subDate/1000);
-            //     pics[i].endDate=getLocalTime(pics[i].endDate/1000);
-            // }
+            for(i=0;i<pics.length;i++)
+            {
+                pics[i].subDate=getLocalTime(pics[i].subDate/1000);
+                pics[i].endDate=getLocalTime(pics[i].endDate/1000);
+            }
             app.pictures=pics;
             app.maxtCount = pics.length;
             if(app.maxtCount < app.pagesize)
@@ -688,7 +688,8 @@
                         layer.load(1);
                         datas = [];
                         for (i = 0; i < app.pagesize; i++) {
-                            app.temp = app.pictures[(app.page-1) * app.pagesize + i];
+                            app.temp = app.pictures[(app.page-1) * app.pagesize + i]
+                            // app.temp.endDate=getLocalTime(app.temp.endDate);
                             datas.push(app.temp);
                         }
                         app.nowpictures = datas;
@@ -701,6 +702,7 @@
                         console.log(nowpos);
                         for (i = nowpos; i <  app.maxtCount ; i++) {
                             app.temp = app.pictures[i];
+                            // app.temp.endDate=getLocalTime(app.temp.endDate);
                             // console.log(app.pictures[i]);
                             datas.push(app.temp);
                         }

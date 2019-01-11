@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.operatingSystem.dao.BsMapper">
+
+    <resultMap id="BsResultMap" type="com.operatingSystem.model.Bs">
+        <result column="id" property="id"></result>
+        <result column="isrefresh" property="isrefresh"></result>
+        <result column="effectype" property="effectype"></result>
+        <result column="postion" property="postion"></result>
+        <result column="tim" property="time"></result>
+        <result column="pictureid" property="pictureid"></result>
+        <result column="uid" property="uid"></result>
+        <result column="equipid" property="equipid"></result>
+    </resultMap>
+
+    <select id="getAllBs" resultMap="BsResultMap">
+        SELECT * FROM bs
+    </select>
+
+    <insert id="insertOneBs" parameterType="com.operatingSystem.model.Bs">
+      INSERT INTO
+      bs (id, isrefresh, effectype, postion, tim, pictureid,uid,equipid)
+      VALUES (#{id},#{isrefresh},#{effectype},#{postion},#{time},#{pictureid},#{uid},#{equipid})
+    </insert>
+
+    <delete id="deleteBsByEquipid" parameterType="String">
+       delete from bs where equipid=#{equipid}
+    </delete>
+
+</mapper>

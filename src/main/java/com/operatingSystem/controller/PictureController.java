@@ -1,8 +1,10 @@
 package com.operatingSystem.controller;
 //import com.operatingSystem.Utils.ImageReptile;
 import com.operatingSystem.Utils.*;
+import com.operatingSystem.model.Bs;
 import com.operatingSystem.model.Picture;
 import com.operatingSystem.model.User;
+import com.operatingSystem.service.BsService;
 import com.operatingSystem.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +25,9 @@ public class PictureController {
 
     @Autowired
     private PictureService pictureService;
+
+    @Autowired
+    private BsService bsService;
 
     @RequestMapping(value = "/gettestpiclist",    method = RequestMethod.GET)
     public @ResponseBody
@@ -174,6 +179,19 @@ public class PictureController {
         return result;
     }
 
+    @RequestMapping(value = "/getallbs")
+    public @ResponseBody  NetResult getallbs() {
+        NetResult netResult = new NetResult();
+        try{
+            netResult.status=0;
+            netResult.result= bsService.getAllBs();
+        }catch (Exception e){
+            netResult.status=0;
+            netResult.result="noresult";
+        }
+        return netResult;
+    }
+
     @RequestMapping(value = "/getbtos")
     public @ResponseBody  NetResult getbtos(
 //            BtoS bs){
@@ -184,24 +202,36 @@ public class PictureController {
 //            @RequestParam Picture picture,
             @RequestParam String picture,
             @RequestParam String uid) {
-        BtoS bs = new BtoS();
+        Bs bs = new Bs();
+//        BtoS bs = new BtoS();
         bs.isrefresh=isrefresh;
         bs.time=time;
         bs.postion=position;
         bs.effectype=effectype;
-        try {
-            bs.pictrue=pictureService.getPictureById(picture);
-        }catch (Exception e){
-            bs.pictrue=picture;
-        }
+        bs.pictureid=picture;
+//        try {
+//            bs.pictrue=pictureService.getPictureById(picture);
+//        }catch (Exception e){
+//            bs.pictrue=picture;
+//        }
 //        bs.pictrue=picture;
         bs.uid=uid;
+        bs.equipid="16124400test";
         System.out.println(bs.toString());
         System.out.println(bs.uid);
-        System.out.println(bs.pictrue);
+        System.out.println(bs.pictureid);
         NetResult result = new NetResult();
-        result.status=0;
-        result.result=bs;
+        try {
+            bsService.insertONEBs(bs);
+            result.status=0;
+            result.result=bs;
+
+        }catch (Exception e){
+            System.out.println(e);
+            result.status=1;
+            result.result=bs;
+
+        }
         return result;
     }
 //    isrefresh: 0

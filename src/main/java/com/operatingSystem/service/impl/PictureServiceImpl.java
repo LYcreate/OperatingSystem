@@ -1,6 +1,8 @@
 package com.operatingSystem.service.impl;
 
+import com.operatingSystem.dao.BsMapper;
 import com.operatingSystem.dao.PictureMapper;
+import com.operatingSystem.model.Bs;
 import com.operatingSystem.model.Picture;
 import com.operatingSystem.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 //
 @Service
 public class PictureServiceImpl implements PictureService {
@@ -44,4 +47,5 @@ public class PictureServiceImpl implements PictureService {
     public List<Picture> searchPicturesByKeyword(String keyword)throws Exception {
         return pictureMapper.searchPicturesByKeyword(keyword);
     }
+
 }

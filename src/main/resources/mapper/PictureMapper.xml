@@ -13,22 +13,6 @@
         <result column="sub_date" property="subDate"></result>
         <result column="end_date" property="endDate"></result>
     </resultMap>
-
-    <!--public Integer isrefresh;-->
-    <!--public Integer effectype;-->
-    <!--public Integer postion;-->
-    <!--public Integer time;-->
-    <!--public String pictrueid;-->
-    <!--public String uid;-->
-    <resultMap id="bsResultMap" type="com.operatingSystem.Utils.bs">
-        <result column="isrefresh" property="isrefresh"></result>
-        <result column="effectype" property="effectype"></result>
-        <result column="postion" property="postion"></result>
-        <result column="tim" property="time"></result>
-        <result column="pictrueid" property="pictrueid"></result>
-        <result column="uid" property="uid"></result>
-        <result column="equipid" property="equipid"></result>
-    </resultMap>
     <!--//select//-->
     <select id="getPictureById" parameterType="String" resultMap="pictureResultMap">
         select * from picture where id=#{id}
@@ -46,21 +30,6 @@
         SELECT * FROM picture WHERE picturename LIKE CONCAT(CONCAT('%', #{keyword}), '%');
     </select>
 
-    <!--<select id="getAllBs" resultMap="bsResultMap">-->
-        <!--SELECT * FROM bs-->
-    <!--</select>-->
-
-    <!--<insert id="insertOneBs" parameterType="bsResultMap">-->
-      <!--INSERT INTO-->
-      <!--bs (isrefresh, effectype, postion, tim, pictrueid,uid,equipid)-->
-      <!--VALUES (#{isrefresh},#{effectype},#{postion},#{time},#{pictrueid},#{uid}.#{equipid})-->
-    <!--</insert>-->
-
-    <!--<delete id="deleteBsByEquipid" parameterType="String">-->
-       <!--delete from bs where equipid=#{equipid}-->
-    <!--</delete>-->
-
-    <!--//insert//-->
     <insert id="insertOnePicture" parameterType="com.operatingSystem.model.Picture"
             keyProperty="id" keyColumn="id">
       INSERT INTO
