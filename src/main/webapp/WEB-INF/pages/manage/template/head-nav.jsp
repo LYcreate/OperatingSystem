@@ -40,13 +40,12 @@
                 <a href="javascript:;">图片管理</a>
                 <dl class="layui-nav-child">
                     <dd><a href="/screenos/user/piclist">本地图片列表</a></dd>
-                    <dd><a href="/screenos/user/searchpic">在线搜索图片</a></dd>
                     <dd><a href="/screenos/user/addpic">添加图片</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item" style="float: right">
                 <a href="javascript:;">
-                    <div th:text="${session.userName}"></div>
+                    <div th:text="${session.currentUser.userName}"></div>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/screenos/screen">浏览壁纸界面</a></dd>

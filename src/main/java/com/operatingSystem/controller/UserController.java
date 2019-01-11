@@ -1,5 +1,6 @@
 package com.operatingSystem.controller;
 
+import com.operatingSystem.Utils.MD5Encode;
 import com.operatingSystem.Utils.NetResult;
 import com.operatingSystem.model.User;
 import com.operatingSystem.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,19 +20,63 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "/test",    method = RequestMethod.GET)
-//    public @ResponseBody NetResult test() throws Exception{
-//        System.out.println("imin");
-//        User user = new User();
-//        NetResult NetResult = new NetResult();
-//        user.setId("1");
-//        user.setPassword("admin");
-//        User us = userService.getUserByIdAndPassword(user);
-//        System.out.println(us.getUsername());
-//        NetResult.status=1;
-//        NetResult.result=us.getUsername();
-//        return NetResult;
-//    }
+    @RequestMapping("/user/guest")
+    public NetResult guest(HttpSession session) {
+        User dbUser = new User();
+        NetResult netResult = new NetResult();
+        dbUser =  userService.getUserByUid("16124400");
+
+        dbUser.CURRENT_USER = dbUser.getUsername();
+        session.setAttribute(User.CURRENT_USER, dbUser);
+        session.setAttribute("userName", dbUser.getUsername());
+        dbUser.setLoginDate(new Date());
+        String str=session.getId();
+        dbUser.setSessionId(str);
+        try {
+            userService.updateOneUser(dbUser);
+            netResult.status = 0;
+            netResult.result = "登陆成功";
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            netResult.status = 0;
+            netResult.result = "登陆失败";
+        }
+        return netResult;
+    }
+
+    @RequestMapping("/user/master")
+    public NetResult master(HttpSession session) {
+        NetResult netResult = new NetResult();
+        User dbUser = userService.getUserByUid("10000000");
+        dbUser.CURRENT_USER = dbUser.getUsername();
+        session.setAttribute(User.CURRENT_USER, dbUser);
+        session.setAttribute("userName", dbUser.getUsername());
+        dbUser.setLoginDate(new Date());
+        String str=session.getId();
+        dbUser.setSessionId(str);
+        try {
+            userService.updateOneUser(dbUser);
+            netResult.status = 0;
+            netResult.result = "登陆成功";
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            netResult.status = 0;
+            netResult.result = "登陆失败";
+        }
+        return netResult;
+    }
+
+    @RequestMapping("/user/logout")
+    public NetResult logout(HttpSession session) {
+        NetResult netResult = new NetResult();
+        session.removeAttribute(User.CURRENT_USER);
+        session.invalidate();
+        netResult.status = 0;
+        netResult.result = "注销成功";
+        return netResult;
+    }
 
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public @ResponseBody NetResult login(HttpServletRequest request) throws Exception{
@@ -42,7 +88,9 @@ public class UserController {
             netResult.status=1;
             netResult.result="用户不存在!";
         }else {
-            String password=request.getParameter("password");
+            String password= MD5Encode.encode(request.getParameter("password")) + MD5Encode.encode(request.getParameter("password"));
+            System.out.println(password);
+            System.out.println(user.getPassword());
             if (password.equals(user.getPassword())){
                 netResult.status=0;
                 netResult.result="成功登录!";

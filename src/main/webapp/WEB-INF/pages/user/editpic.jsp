@@ -522,10 +522,6 @@
         }));
     }
 
-    function back(){
-        window.history.go(-1)
-    }
-
     function refresh(){
         console.log("ajaxover");
         $('#EditImg').cropper('destroy');

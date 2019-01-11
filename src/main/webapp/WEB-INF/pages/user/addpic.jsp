@@ -15,7 +15,7 @@
             </td>
         </tr>
         <tr>
-            <th colspan="1" style="text-align:center">截止时间</th>
+            <th colspan="1" style="text-align:center">有效期至</th>
             <td colspan="5">
                 <input class="layui-input" v-model="picture.endDate" placeholder="请选择截止时间"
                        onclick="layui.laydate({min:layui.laydate.now(0),max:layui.laydate.now(+3),elem: this, festival:false,istime: true, format: 'YYYY-MM-DD',choose:function (datas){app.picture.endDate=datas;
@@ -514,10 +514,6 @@
             'message':''+app.picture.url,
             'coordinationId':'',
         }));
-    }
-
-    function back(){
-        window.history.go(-1)
     }
 
     function refresh(){

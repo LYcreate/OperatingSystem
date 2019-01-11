@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class PageController {
 
@@ -21,24 +23,52 @@ public class PageController {
     private PictureService pictureService;
     @Autowired
     private UserService userService;
-    /*
-     测试
-            */
-    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
-    public String goIndex(){
-
-        return "index";
-    }
 
     /*
      登陆页面
             */
-    @RequestMapping("/login")
-    public String goLogin(){
+    @RequestMapping(value = {"/","/home","/login"}, method = RequestMethod.GET)
+    public String goIndex(){
 
         return "login";
     }
 
+    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
+    public String rd(HttpSession session){
+        User user = (User) session.getAttribute(User.CURRENT_USER);
+        try {
+            System.out.println(user.getUid());
+            System.out.println(user.getUserType());
+        }catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        try{
+            if (user.getUserType().equals("0")) {
+                System.out.println("to:"+"user/piclist");
+                return "user/piclist";
+            } else if (user.getUserType().equals("1")) {
+                System.out.println("to:"+"manage/userlist");
+                return "manage/userlist";
+            } else if (user.getUserType().equals("2")) {
+                System.out.println("to:"+"screen");
+                return "screen";
+            } else {
+                System.out.println("to:"+"login");
+                return "login";
+            }
+        }catch (Exception e)
+        {
+            return "login";
+        }
+    }
+
+//    @RequestMapping("/login")
+//    public String goLogin(){
+//
+//        return "login";
+//    }
+//
     /*
     显示页面
     */
