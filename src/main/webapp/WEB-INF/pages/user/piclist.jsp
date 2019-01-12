@@ -582,13 +582,13 @@
                     app.pics2=[];
                     app.pics3=[];
                     app.pics4=[];
+                    app.pagesize=20;
                 },
                 add:function(picture){
                     window.location.href = "/screenos/user/controlpicture?id="+picture.id;
                 },
                 find:function(){
                     app.reset();
-                    app.pagesize=20;
                     layer.load(1);
                     $.ajax({
                         type: 'POST',
@@ -726,5 +726,7 @@
     function getLocalTime(nS) {
         return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
     }
+
+    // $("#id").appendChild("<div></div>");
 
 </script>

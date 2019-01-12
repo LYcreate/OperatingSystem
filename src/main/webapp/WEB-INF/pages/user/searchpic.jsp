@@ -248,6 +248,7 @@
                     app.pics2=[];
                     app.pics3=[];
                     app.pics4=[];
+                    app.pagesize=20;
                 },
                 add:function(picture){
                     layer.load(1);

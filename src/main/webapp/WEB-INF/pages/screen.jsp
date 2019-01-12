@@ -47,10 +47,10 @@
     </style>
 </head>
 <body>
-<div class="demo">
+<div class="demo" style="width:1524px;height:844px">
     <div class="swiper-container1" style="float:left" >
         <div class="swiper-wrapper">
-            <div v-for="pica in picas" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="pica" ></div>
+            <div v-for="pica in picas" class="swiper-slide swiper-slide-next"><img style="width:100%;height:422px" v-bind:src="pica" ></div>
         </div>
         <%--<!--  如果需要分页器 -->--%>
         <%--<div class="swiper-pagination"></div>    --%>
@@ -63,19 +63,19 @@
 
     <div class="swiper-container2" style="float:right ">
         <div class="swiper-wrapper">
-            <div v-for="picb in picbs" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picb" ></div>
+            <div v-for="picb in picbs" class="swiper-slide swiper-slide-next"><img  style="width:100%;height:422px" v-bind:src="picb" ></div>
         </div>
     </div>
-
+    <%--style="width:50%;height:540px"--%>
     <div class="swiper-container3" style="float:left" >
         <div class="swiper-wrapper">
-            <div v-for="picc in piccs" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picc" ></div>
+            <div v-for="picc in piccs" class="swiper-slide swiper-slide-next"><img  style="width:100%;height:422px" v-bind:src="picc" ></div>
         </div>
     </div>
 
     <div class="swiper-container4" style="float:right ">
         <div class="swiper-wrapper">
-            <div v-for="picd in picds" class="swiper-slide swiper-slide-next"><img style="width:750px;height:422px" v-bind:src="picd" ></div>
+            <div v-for="picd in picds" class="swiper-slide swiper-slide-next"><img  style="width:100%;height:422px" v-bind:src="picd" ></div>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
             if(result["isrefresh"]==1){
                 console.log(vmm.picas);
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    url: '/screenos/getpicbyid',
                     type: 'Get',
                     data:{'id':result["pictureid"]},
                     success: function (data) { // 接口调用成功回调函数
@@ -122,17 +122,18 @@
                  });
             }else{
                 console.log(result.time);
+                autoslide.autosetA(2,result.time*1000);
                 if(result.time>0)
                 autoslide.autosetA(1,result.time*1000);
                 else{
-                    autoslide.autosetD(2,result.time*1000);
+                    autoslide.autosetA(2,result.time*1000);
                 }
             }
         }else if(result.postion==2){
             if(result.isrefresh==1){
                 console.log(vmm.picbs);
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    url: '/screenos/getpicbyid',
                     type: 'Get',
                     data:{'id':result["pictureid"]},
                     success: function (data) { // 接口调用成功回调函数
@@ -143,17 +144,18 @@
                 });
             }else{
                 console.log(result.time);
+                autoslide.autosetB(2,result.time*1000);
                 if(result.time>0)
                     autoslide.autosetB(1,result.time*1000);
                 else{
-                    autoslide.autosetD(2,result.time*1000);
+                    autoslide.autosetB(2,result.time*1000);
                 }
             }
         }else if(result.postion==3){
             if(result.isrefresh==1){
                 console.log(vmm.piccs);
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    url: '/screenos/getpicbyid',
                     type: 'Get',
                     data:{'id':result["pictureid"]},
                     success: function (data) { // 接口调用成功回调函数
@@ -162,19 +164,20 @@
                         console.log(vmm.piccs);
                     }
                 });
-            }else{
+            }else {
                 console.log(result.time);
-                if(result.time>0)
-                    autoslide.autosetC(1,result.time*1000);
-                else{
-                    autoslide.autosetD(2,result.time*1000);
+                if (result.time > 0) {
+                    autoslide.autosetC(2, result.time * 1000);
+                    autoslide.autosetC(1, result.time * 1000);
+                }else{
+                    autoslide.autosetC(2,result.time*1000);
                 }
             }
         }else if(result.postion==4){
             if(result.isrefresh==1){
                 console.log(vmm.picds);
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/getpicbyid',
+                    url: '/screenos/getpicbyid',
                     type: 'Get',
                     data:{'id':result["pictureid"]},
                     success: function (data) { // 接口调用成功回调函数
@@ -185,6 +188,7 @@
                 });
             }else{
                 console.log(result.time);
+                autoslide.autosetD(2,result.time*1000);
                 if(result.time>0)
                     autoslide.autosetD(1,result.time*1000);
                 else{
@@ -201,81 +205,81 @@
     //         }
     //      )
     };
-    function testpic() {
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(1);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(11);
-                }
-                vmm.picas = srcs;
-                console.log(vmm.picas);
-                console.log(111);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(2);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(22);
-                }
-                vmm.picbs = srcs;
-                console.log(vmm.picbs);
-                console.log(222);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(3);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(33);
-                }
-                vmm.piccs = srcs;
-                console.log(vmm.piccs);
-                console.log(333);
-            }
-        });
-        $.ajax({
-            url: 'http://localhost:8080/screenos/gettestpiclist2',
-            type: 'Get',
-            success: function (data) { // 接口调用成功回调函数
-                console.log(data);
-                console.log(4);
-                var presrc = "<%=basePath%>"
-                var srcs = new Array(data.length)
-                for (var i = 0; i < data.length; i++) {
-                    srcs[i] = presrc + data[i];
-                    console.log(srcs[i]);
-                    console.log(44);
-                }
-                vmm.picds = srcs;
-                console.log(vmm.picds);
-                console.log(444);
-            }
-        })
+    <%--function testpic() {--%>
+        <%--$.ajax({--%>
+            <%--url: 'http://localhost:8080/screenos/gettestpiclist2',--%>
+            <%--type: 'Get',--%>
+            <%--success: function (data) { // 接口调用成功回调函数--%>
+                <%--console.log(data);--%>
+                <%--console.log(1);--%>
+                <%--var presrc = "<%=basePath%>"--%>
+                <%--var srcs = new Array(data.length)--%>
+                <%--for (var i = 0; i < data.length; i++) {--%>
+                    <%--srcs[i] = presrc + data[i];--%>
+                    <%--console.log(srcs[i]);--%>
+                    <%--console.log(11);--%>
+                <%--}--%>
+                <%--vmm.picas = srcs;--%>
+                <%--console.log(vmm.picas);--%>
+                <%--console.log(111);--%>
+            <%--}--%>
+        <%--});--%>
+        <%--$.ajax({--%>
+            <%--url: 'http://localhost:8080/screenos/gettestpiclist2',--%>
+            <%--type: 'Get',--%>
+            <%--success: function (data) { // 接口调用成功回调函数--%>
+                <%--console.log(data);--%>
+                <%--console.log(2);--%>
+                <%--var presrc = "<%=basePath%>"--%>
+                <%--var srcs = new Array(data.length)--%>
+                <%--for (var i = 0; i < data.length; i++) {--%>
+                    <%--srcs[i] = presrc + data[i];--%>
+                    <%--console.log(srcs[i]);--%>
+                    <%--console.log(22);--%>
+                <%--}--%>
+                <%--vmm.picbs = srcs;--%>
+                <%--console.log(vmm.picbs);--%>
+                <%--console.log(222);--%>
+            <%--}--%>
+        <%--});--%>
+        <%--$.ajax({--%>
+            <%--url: 'http://localhost:8080/screenos/gettestpiclist2',--%>
+            <%--type: 'Get',--%>
+            <%--success: function (data) { // 接口调用成功回调函数--%>
+                <%--console.log(data);--%>
+                <%--console.log(3);--%>
+                <%--var presrc = "<%=basePath%>"--%>
+                <%--var srcs = new Array(data.length)--%>
+                <%--for (var i = 0; i < data.length; i++) {--%>
+                    <%--srcs[i] = presrc + data[i];--%>
+                    <%--console.log(srcs[i]);--%>
+                    <%--console.log(33);--%>
+                <%--}--%>
+                <%--vmm.piccs = srcs;--%>
+                <%--console.log(vmm.piccs);--%>
+                <%--console.log(333);--%>
+            <%--}--%>
+        <%--});--%>
+        <%--$.ajax({--%>
+            <%--url: 'http://localhost:8080/screenos/gettestpiclist2',--%>
+            <%--type: 'Get',--%>
+            <%--success: function (data) { // 接口调用成功回调函数--%>
+                <%--console.log(data);--%>
+                <%--console.log(4);--%>
+                <%--var presrc = "<%=basePath%>"--%>
+                <%--var srcs = new Array(data.length)--%>
+                <%--for (var i = 0; i < data.length; i++) {--%>
+                    <%--srcs[i] = presrc + data[i];--%>
+                    <%--console.log(srcs[i]);--%>
+                    <%--console.log(44);--%>
+                <%--}--%>
+                <%--vmm.picds = srcs;--%>
+                <%--console.log(vmm.picds);--%>
+                <%--console.log(444);--%>
+            <%--}--%>
+        <%--})--%>
 
-    }
+    <%--}--%>
     // 图片动态绑定
     var vmm = new Vue({
         el: ".demo",
@@ -291,7 +295,7 @@
         methods: {
             load: function () {
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist2',
+                    url: '/screenos/gettestpiclist1',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         // console.log(data);
@@ -310,7 +314,7 @@
                     }
                 });
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist',
+                    url: '/screenos/gettestpiclist2',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         // console.log(data);
@@ -323,13 +327,13 @@
                             // console.log(22);
                         }
                         vmm.picbs = srcs;
-                        autoslide.autosetB(1,5000);
+                        autoslide.autosetB(1,5500);
                         // console.log(vmm.picbs);
                         // console.log(222);
                     }
                 });
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist',
+                    url: '/screenos/gettestpiclist3',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         // console.log(data);
@@ -342,13 +346,13 @@
                             // console.log(33);
                         }
                         vmm.piccs = srcs;
-                        autoslide.autosetC(1,5000);
+                        autoslide.autosetC(1,6500);
                         // console.log(vmm.piccs);
                         // console.log(333);
                     }
                 });
                 $.ajax({
-                    url: 'http://localhost:8080/screenos/gettestpiclist',
+                    url: '/screenos/gettestpiclist4',
                     type: 'Get',
                     success: function (data) { // 接口调用成功回调函数
                         // console.log(data);
@@ -361,7 +365,7 @@
                             // console.log(44);
                         }
                         vmm.picds = srcs;
-                        autoslide.autosetD(1,5000);
+                        autoslide.autosetD(1,7000);
                         // console.log(vmm.picds);
                         // console.log(444);
                     }
